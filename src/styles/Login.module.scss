@@ -1,0 +1,31 @@
+.layout{
+  margin: 100px 0;
+}
+.content{
+  padding: 0 20px;
+  max-width: 370px;
+  margin: 0 auto;
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
+  p, a{
+    font-size: 0.875rem;
+  }
+  h1, p, a{
+    text-align: center;
+  }
+  & > a {
+    display: block;
+    color: #4B4B4B;
+  }
+}
+.form {
+  button{
+    margin-top: 16px;
+  }
+  a{
+    margin-left: 12px;
+    color: #5353F9;
+  }
+}
