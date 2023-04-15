@@ -1,6 +1,6 @@
 import { useCallback, useState, ChangeEvent } from "react";
 
-type InputEvent = ChangeEvent<HTMLInputElement>;
+export type InputEvent = ChangeEvent<HTMLInputElement>;
 
 interface UseInputReturn {
   value: string;

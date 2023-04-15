@@ -1,5 +1,7 @@
 import style from "../../styles/EnterTheWorkRoom.module.scss";
 import useInput from "../../hooks/useInput";
+import Input from "../Input";
+import Button from "../Button";
 
 interface IEnterTheWorkRoomData {
   email: string;
@@ -33,23 +35,19 @@ const EnterTheWorkRoom = () => {
           </p>
         </div>
         <form className={style.form} onSubmit={handleSubmit}>
-          <div className={style["form-input"]}>
-            <input
-              type="text"
-              placeholder="근무방 이름"
-              value={workRoomName.value}
-              onChange={workRoomName.onChange}
-            />
-          </div>
-          <div className={style["form-input"]}>
-            <input
-              type="password"
-              placeholder="근무방 비밀번호"
-              value={password.value}
-              onChange={password.onChange}
-            />
-          </div>
-          <button type="submit">입장하기</button>
+          <Input
+            type="text"
+            placeholder="근무방 이름"
+            value={workRoomName.value}
+            onChange={workRoomName.onChange}
+          />
+          <Input
+            placeholder="근무방 비밀번호"
+            type={"password"}
+            value={password.value}
+            onChange={password.onChange}
+          />
+          <Button type={"submit"} children={"입장하기"} />
           <p>
             근무방 입장은 <b>'근로자'</b>에게 맞춰져 있는 서비스입니다.
           </p>
