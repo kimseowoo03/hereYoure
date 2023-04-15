@@ -7,9 +7,10 @@ interface InputProps {
   value: string;
   placeholder: string;
   onChange: (event: InputEvent) => void;
+  autoComplete?: "current-password" | "workRoom-name" | "user-email";
 }
 
-const Input = ({ label, type, value, placeholder, onChange }: InputProps) => {
+const Input = ({ label, type, value, placeholder, onChange, autoComplete }: InputProps) => {
   return (
     <div className={style["form-input"]}>
       <label>{label}</label>
@@ -18,6 +19,7 @@ const Input = ({ label, type, value, placeholder, onChange }: InputProps) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        autoComplete={autoComplete}
       />
     </div>
   );

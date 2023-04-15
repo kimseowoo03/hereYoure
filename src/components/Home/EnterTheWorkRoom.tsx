@@ -36,16 +36,18 @@ const EnterTheWorkRoom = () => {
         </div>
         <form className={style.form} onSubmit={handleSubmit}>
           <Input
-            type="text"
+            type={"text"}
             placeholder="근무방 이름"
             value={workRoomName.value}
             onChange={workRoomName.onChange}
+            autoComplete={"workRoom-name"}
           />
           <Input
             placeholder="근무방 비밀번호"
             type={"password"}
             value={password.value}
             onChange={password.onChange}
+            autoComplete={"current-password"}
           />
           <Button type={"submit"} children={"입장하기"} />
           <p>
