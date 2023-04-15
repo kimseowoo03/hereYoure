@@ -1,4 +1,6 @@
+import EnterTheWorkRoom from "../components/Home/EnterTheWorkRoom";
+
 const Home = () => {
-  return <div>HOME</div>;
+  return <EnterTheWorkRoom />;
 };
 export default Home;
