@@ -40,14 +40,14 @@ const EnterTheWorkRoom = () => {
             placeholder="근무방 이름"
             value={workRoomName.value}
             onChange={workRoomName.onChange}
-            autoComplete={"workRoom-name"}
+            autoComplete={"off"}
           />
           <Input
             placeholder="근무방 비밀번호"
             type={"password"}
             value={password.value}
             onChange={password.onChange}
-            autoComplete={"current-password"}
+            autoComplete={"off"}
           />
           <Button type={"submit"} children={"입장하기"} />
           <p>

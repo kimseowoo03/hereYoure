@@ -4,10 +4,10 @@ import style from "../styles/Input.module.scss";
 interface InputProps {
   label?: string;
   type: "text" | "email" | "password";
-  value: string;
+  value: string | number;
   placeholder: string;
   onChange: (event: InputEvent) => void;
-  autoComplete?: "current-password" | "workRoom-name" | "user-email";
+  autoComplete: "off";
 }
 
 const Input = ({ label, type, value, placeholder, onChange, autoComplete }: InputProps) => {
