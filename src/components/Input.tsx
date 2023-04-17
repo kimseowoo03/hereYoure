@@ -1,16 +1,18 @@
-import { InputEvent } from "../hooks/useInput";
+import { InputChangeEvent } from "../hooks/useInput";
 import style from "../styles/Input.module.scss";
 
 interface InputProps {
   label?: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password"| "number";
   value: string | number;
+  max?: string;
   placeholder: string;
-  onChange: (event: InputEvent) => void;
+  onChange: (event: InputChangeEvent) => void;
+  onBlur? : (event: React.FocusEvent<HTMLInputElement>) => void;
   autoComplete: "off";
 }
 
-const Input = ({ label, type, value, placeholder, onChange, autoComplete }: InputProps) => {
+const Input = ({ label, type, value, placeholder, onChange, autoComplete, max, onBlur }: InputProps) => {
   return (
     <div className={style["form-input"]}>
       <label>{label}</label>
@@ -20,6 +22,8 @@ const Input = ({ label, type, value, placeholder, onChange, autoComplete }: Inpu
         value={value}
         onChange={onChange}
         autoComplete={autoComplete}
+        max={max}
+        onBlur={onBlur}
       />
     </div>
   );
