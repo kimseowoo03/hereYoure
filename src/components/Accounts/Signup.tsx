@@ -4,12 +4,10 @@ import style from "../../styles/Signup.module.scss";
 import Input from "../Input";
 import Button from "../Button";
 
-import { InputChangeEvent } from "../../hooks/useInput";
-
 const Signup = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
 
   const name = useInput("");
   const email = useInput("");

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import useInput from "../../hooks/useInput";
 import Input from "../Input";
 import style from "../../styles/PasswordFind.module.scss";
@@ -5,9 +7,14 @@ import Button from "../Button";
 import useAuthState from "../../store/useAuthState";
 
 const PasswordFind = () => {
+  const navigate = useNavigate();
   const {setEmailAuth} = useAuthState();
   const email = useInput("");
   const emailVerificationNumber = useInput("");
+
+  const handleClick = () => {
+    navigate('/login')
+  };
 
   return (
     <div className={style.layout}>
@@ -42,7 +49,7 @@ const PasswordFind = () => {
               인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여 주세요.
             </p>
             <div className={style["button-div"]}>
-              <Button children={"취소"} type={"button"} isCancel={true}/>
+              <Button children={"취소"} type={"button"} isCancel={true} onClick={handleClick}/>
               <Button children={"다음"} type={"button"} onClick={setEmailAuth}/>
             </div>
           </form>
