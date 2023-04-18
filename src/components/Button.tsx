@@ -3,11 +3,12 @@ import style from "../styles/Button.module.scss";
 interface ButtonProps {
   children: string;
   type: "button" | "submit";
+  isCancel?: boolean;
 }
 
-const Button = ({ children, type }: ButtonProps) => {
+const Button = ({ children, type, isCancel }: ButtonProps) => {
   return (
-    <button className={style.button} type={type}>
+    <button className={isCancel?style["cancel-button"]:style.button} type={type}>
       {children}
     </button>
   );

@@ -1,9 +1,18 @@
-.button{
+.button, .cancel-button{
   width: 100%;
   height: 56px;
-  background: #5353F9;
   border-radius: 8px;
   font-size: 1.125rem;
+}
+
+.button{
+  background: #5353F9;
   color: white;
   border: none;
+}
+
+.cancel-button{
+  background: white;
+  color: #5353F9;
+  border: 1px solid #5353F9;
 }
