@@ -30,7 +30,7 @@ const Login = () => {
             히어유얼은 처음이신가요?<a href="/signup">회원가입</a>
           </p>
         </form>
-        <a href="/" >비밀번호 찾기</a>
+        <a href="/login/passwordfind" >비밀번호 찾기</a>
       </div>
     </div>
   );

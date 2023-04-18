@@ -4,11 +4,12 @@ interface ButtonProps {
   children: string;
   type: "button" | "submit";
   isCancel?: boolean;
+  onClick?: () => void
 }
 
-const Button = ({ children, type, isCancel }: ButtonProps) => {
+const Button = ({ children, type, isCancel, onClick }: ButtonProps) => {
   return (
-    <button className={isCancel?style["cancel-button"]:style.button} type={type}>
+    <button className={isCancel?style["cancel-button"]:style.button} type={type} onClick={onClick}>
       {children}
     </button>
   );
