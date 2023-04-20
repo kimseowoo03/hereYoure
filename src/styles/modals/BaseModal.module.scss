@@ -1,0 +1,32 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.layout{
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: 60;
+  align-items: center;
+}
+.modal {
+  margin: 0 20px;
+  padding: 3.75rem 6.875rem;
+  max-width: 520px;
+  width: 100%;
+
+  background-color: white;
+  border-radius: 10px;
+  z-index: 30;
+  animation: slide-down 300ms ease-out forwards;
+}
