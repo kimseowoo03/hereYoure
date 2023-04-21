@@ -1,0 +1,121 @@
+.form{
+  position: relative;
+}
+.inner-button{
+  border: none;
+  padding: 9px 15px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 12px;
+  position: absolute;
+  right: 8px;
+  top: 125px;
+  margin: 0;
+  color: white;
+  background: #5353F9;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.alert{
+  color: #D62929;
+  font-size: 12px;
+  margin-top: 10px ;
+  margin-bottom: 0;
+}
+.tax-content {
+  p{
+    margin-bottom: 8px;
+  }
+}
+.tax-select-box{
+  width: 100%;
+  button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 0 16px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    height: 40px;
+    span{
+      color: #C8C8C8;
+    }
+  }
+  .tax-select-list{
+    position: relative;
+    animation: slide-down 1s ease;
+    @keyframes slide-down {
+      0% {
+        top: -10px;
+        opacity: 0;
+      }
+      100% {
+        top: 0;
+        opacity: 1;
+      }
+    }
+    margin-top: 10px;
+    list-style: none;
+    padding: 0;
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    transition: height 0.3s ease-out;
+    li{
+      padding-left: 16px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      height: 46px;
+      border-top: 1px solid #C8C8C8;
+    }
+    li:nth-child(1){
+      border: none;
+    }
+    li:hover{
+      color: #5353F9;
+    }
+  }
+}
+
+.allowance-content{
+  margin-top: 26px;
+  background: #FFFFFF;
+  border: 1px solid #5353F9;
+  border-radius: 5px;
+  padding: 32px 48px;
+  .allowance:not(:last-child){
+    margin-bottom: 20px;
+  }
+  .allowance::after{
+    clear:both;
+    display:block;
+    content: '';
+  }
+  .radio{
+    float: right;
+  }
+  .description-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 43px;
+    background: #F2F4F9;
+    border-radius: 5px;
+    margin-top: 12px;
+  }
+}
+
+.button-div{
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.none{
+  display: none;
+}
