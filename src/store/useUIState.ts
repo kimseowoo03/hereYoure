@@ -1,13 +1,17 @@
 import { create } from "zustand";
 
 type UIState = {
-  isOpen: boolean;
-  setIsOpen: () => void;
+  editModalOpen: boolean;
+  registerModalOpen: boolean;
+  setEditModalOpen: () => void;
+  setRegisterModalOpen: () => void;
 };
 
 const useUIState = create<UIState>((set) => ({
-  isOpen: false,
-  setIsOpen: () => set((state) => ({ isOpen: !state.isOpen })),
+  editModalOpen: false,
+  registerModalOpen: false,
+  setEditModalOpen: () => set((state) => ({ editModalOpen: !state.editModalOpen })),
+  setRegisterModalOpen: () => set((state) => ({registerModalOpen: !state.registerModalOpen}))
 }));
 
 export default useUIState;
