@@ -3,11 +3,11 @@ import Input from "../components/Input";
 import useInput from "../hooks/useInput";
 import BaseModal from "./BaseModal";
 
-import style from "../styles/modals/WorkRoomRegisterModal.module.scss";
+import style from "../styles/modals/UserInfoFixModal.module.scss";
 import useUIState from "../store/useUIState";
 
-const WorkRoomRegisterModal = () => {
-  const {setIsOpen} = useUIState()
+const UserInfoFixModal = () => {
+  const { setEditModalOpen } = useUIState();
   const name = useInput("");
   const password = useInput("");
   const newPassword = useInput("");
@@ -53,7 +53,12 @@ const WorkRoomRegisterModal = () => {
             placeholder={"새 비밀번호 입력"}
           />
           <div className={style["button-div"]}>
-            <Button children={"취소"} type={"button"} isCancel={true} onClick={setIsOpen} />
+            <Button
+              children={"취소"}
+              type={"button"}
+              isCancel={true}
+              onClick={setEditModalOpen}
+            />
             <Button children={"변경하기"} type={"submit"} />
           </div>
         </form>
@@ -62,4 +67,4 @@ const WorkRoomRegisterModal = () => {
   );
 };
 
-export default WorkRoomRegisterModal;
+export default UserInfoFixModal;
