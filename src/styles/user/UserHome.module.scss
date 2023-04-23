@@ -47,11 +47,21 @@
       font-weight: 600;
     }
   }
-.list-layout{
+.list-container{
+  margin-top: 18px;
   background-color: #F2F4F9;
   border-radius: 15px;
-  height: 480px;
+  min-height: 480px;
   text-align: center;
+  padding: 28px 32px;
+  ul{
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+  }
   .no-workroom{
     padding-top: 225px;
   }
