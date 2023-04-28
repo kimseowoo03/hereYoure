@@ -1,17 +1,50 @@
-import style from "../../styles/UserHome.module.scss";
+import style from "../../styles/user/UserHome.module.scss";
 import UserInfoFixModal from "../../modals/UserInfoFixModal";
 import { Fragment } from "react";
 import useUIState from "../../store/useUIState";
 import WorkRoomRegisterModal from "../../modals/WorkRoomRegisterModal";
+import WorkRoomCard from "./WorkRoomCard";
+
+export interface IWORKROOM_DATA {
+  id: string;
+  name: string;
+  weeklyInclude: boolean;
+  overtimeInclude: boolean;
+  nightInclude: boolean;
+}
+
+const WORKROOM_DATA: IWORKROOM_DATA[] = [
+  {
+    id: "kikiqwoojjjwpxi23we",
+    name: "인터라켓 PC방",
+    weeklyInclude: true,
+    overtimeInclude: false,
+    nightInclude: false,
+  },
+  {
+    id: "oxiuwnek23nixc5721s",
+    name: "관악 난곡점 히어유얼 스터디카페 ",
+    weeklyInclude: true,
+    overtimeInclude: true,
+    nightInclude: true,
+  },
+  {
+    id: "wkejkl123243sad",
+    name: "신림사거리 고기싸롱",
+    weeklyInclude: true,
+    overtimeInclude: true,
+    nightInclude: false,
+  },
+];
 
 const UserHome = () => {
-  const {editModalOpen, setEditModalOpen} = useUIState();
-  const {registerModalOpen, setRegisterModalOpen} = useUIState();
+  const { editModalOpen, setEditModalOpen } = useUIState();
+  const { registerModalOpen, setRegisterModalOpen } = useUIState();
 
   return (
     <Fragment>
-      {editModalOpen&&<UserInfoFixModal />}
-      {registerModalOpen&&<WorkRoomRegisterModal />}
+      {editModalOpen && <UserInfoFixModal />}
+      {registerModalOpen && <WorkRoomRegisterModal />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style["user-info"]}>
@@ -19,15 +52,34 @@ const UserHome = () => {
               김서우님, 반가워요!
               <img src="/images/handIcon.png" alt="handIcon" />
             </h1>
-            <button onClick={setEditModalOpen} className={style["user-edit-button"]}>정보 수정</button>
+            <button
+              onClick={setEditModalOpen}
+              className={style["user-edit-button"]}
+            >
+              정보 수정
+            </button>
           </div>
           <div className={style["work-room-list"]}>
             <div className={style.info}>
               <h2>근무방 목록</h2>
               <button onClick={setRegisterModalOpen}>근무방 등록</button>
             </div>
-            <div className={style["list-layout"]}>
-              <p className={style["no-workroom"]}>등록된 근무방이 없습니다.</p>
+            <div className={style["list-container"]}>
+              <ul>
+                {WORKROOM_DATA.map((workRoom) => {
+                  return (
+                    <WorkRoomCard
+                      key={workRoom.id}
+                      id={workRoom.id}
+                      name={workRoom.name}
+                      weeklyInclude={workRoom.weeklyInclude}
+                      overtimeInclude={workRoom.overtimeInclude}
+                      nightInclude={workRoom.nightInclude}
+                    />
+                  );
+                })}
+              </ul>
+              {/* <p className={style["no-workroom"]}>등록된 근무방이 없습니다.</p> */}
             </div>
           </div>
         </div>

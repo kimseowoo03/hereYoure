@@ -10,14 +10,15 @@ import UserPage from "./pages/UserPage";
 function App() {
   return (
     <BrowserRouter>
-    <Header />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/:userId" element={<UserPage />}/>
-      <Route path="login" element={<LoginPage />} />
-      <Route path="login/passwordfind" element={<PasswordFindPage />} />
-      <Route path="signup" element={<SignupPage />} />
-    </Routes>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="mypage/:userId" element={<UserPage />} />
+        <Route path="workroom/:workroomid" element={<p>근무방</p>} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="login/passwordfind" element={<PasswordFindPage />} />
+        <Route path="signup" element={<SignupPage />} />
+      </Routes>
     </BrowserRouter>
   );
 }
