@@ -21,7 +21,15 @@
   }
 }
 .form {
+  .alert{
+    text-align: left;
+    color: #D62929;
+    font-size: 0.75rem;
+    margin-top: 10px ;
+    margin-bottom: 0;
+  }  
   button{
+    cursor: pointer;
     margin-top: 16px;
   }
   a{
