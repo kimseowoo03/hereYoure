@@ -3,8 +3,18 @@ import useInput from "../../hooks/useInput";
 import style from "../../styles/Signup.module.scss";
 import Input from "../Input";
 import Button from "../Button";
+import { emailAuth } from "../../utils/emailAuth";
 
 const Signup = () => {
+  const [counter, setCounter] = useState(300);
+  const [viewCounter, setViewCounter] = useState(false)
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
+  const minutes = Math.floor(counter / 60)
+    .toString()
+    .padStart(2, "0");
+  const seconds = (counter % 60).toString().padStart(2, "0");
+
   const [isChecked, setIsChecked] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
@@ -23,24 +33,45 @@ const Signup = () => {
     confirmPassword.reset();
   };
 
+  const handleEmailAuthClick = async () => {
+    // 비동기 이메일 인증 작업 수행
+    await emailAuth("kimseowoo03@gmail.com");
+
+    //기존 실행되는 interval 중단하고 카운터 초기화
+    if (intervalId) {
+      clearInterval(intervalId);
+      setCounter(300);
+    }
+
+    // 새로운 interval을 시작
+    setViewCounter(true);
+    const newIntervalId = setInterval(() => {
+      setCounter((prevCounter) => prevCounter - 1);
+
+      if (counter === 0) {
+        clearInterval(newIntervalId);
+      }
+    }, 1000);
+
+    //새로운 interval 업데이트
+    setIntervalId(newIntervalId);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(
-      name.value,
-      email.value,
-      password.value,
-    );
+    console.log(name.value, email.value, password.value);
     allInputValuesReset();
   };
 
-  const  handleConfirmPasswordBlur = () => {
-    setPasswordMatch(password.value === confirmPassword.value)
-  }
+  const handleConfirmPasswordBlur = () => {
+    setPasswordMatch(password.value === confirmPassword.value);
+  };
 
-  const  handlePasswordBlur = () => {
-    let reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/
-    setIsPasswordValid(reg.test(password.value.toString()))
-  }
+  const handlePasswordBlur = () => {
+    let reg =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,16}$/;
+    setIsPasswordValid(reg.test(password.value.toString()));
+  };
 
   return (
     <div className={style.layout}>
@@ -64,10 +95,13 @@ const Signup = () => {
               placeholder={"이메일 입력"}
               onChange={email.onChange}
               autoComplete={"off"}
-            />
-            <a href="/" className={style["inner-button"]}>
-              인증번호 받기
-            </a>
+            ><button
+            type="button"
+            onClick={handleEmailAuthClick}
+            className={style["inner-button"]}
+          >
+            인증번호 받기
+          </button></Input>
             <Input
               type={"number"}
               label={""}
@@ -75,8 +109,12 @@ const Signup = () => {
               placeholder={"인증번호 6자리 입력"}
               onChange={emailVerificationNumber.onChange}
               autoComplete={"off"}
-              max={"6"}
-            />
+              maxLength={6}
+            >
+              <span className={viewCounter?style["auth-timer"]:style["display-none"]}>
+                {minutes}:{seconds}
+              </span>
+            </Input>
             <p>
               이미 가입된 이메일인 경우, 인증번호를 받을 수 없습니다.
               <br />
@@ -91,7 +129,11 @@ const Signup = () => {
               autoComplete={"off"}
               onBlur={handlePasswordBlur}
             />
-            {!isPasswordValid && <p className={style.alert}>8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</p>}
+            {!isPasswordValid && (
+              <p className={style.alert}>
+                8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.
+              </p>
+            )}
             <Input
               type={isChecked ? "text" : "password"}
               label={"비밀번호 확인"}
@@ -101,7 +143,9 @@ const Signup = () => {
               onBlur={handleConfirmPasswordBlur}
               autoComplete={"off"}
             />
-            {!passwordMatch && <p className={style.alert}>비밀번호가 일치하지 않습니다.</p>}
+            {!passwordMatch && (
+              <p className={style.alert}>비밀번호가 일치하지 않습니다.</p>
+            )}
             <div className={style["password-checkbox"]}>
               <input
                 type="checkbox"
