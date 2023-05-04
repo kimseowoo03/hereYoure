@@ -3,16 +3,17 @@ import style from "../styles/Input.module.scss";
 
 interface InputProps {
   label?: string;
-  type: "text" | "email" | "password"| "number";
+  type: "text" | "email" | "password" | "number";
   value: string | number;
-  max?: string;
+  maxLength?: number;
   placeholder: string;
   onChange: (event: InputChangeEvent) => void;
-  onBlur? : (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   autoComplete: "off";
+  children?: React.ReactNode;
 }
 
-const Input = ({ label, type, value, placeholder, onChange, autoComplete, max, onBlur }: InputProps) => {
+const Input = ({ label, type, value, placeholder, onChange, autoComplete, maxLength, onBlur, children }: InputProps) => {
   return (
     <div className={style["form-input"]}>
       <label>{label}</label>
@@ -22,9 +23,10 @@ const Input = ({ label, type, value, placeholder, onChange, autoComplete, max, o
         value={value}
         onChange={onChange}
         autoComplete={autoComplete}
-        max={max}
+        maxLength={maxLength}
         onBlur={onBlur}
       />
+      {children}
     </div>
   );
 };

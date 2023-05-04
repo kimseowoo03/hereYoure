@@ -41,7 +41,7 @@ const PasswordFind = () => {
               placeholder={"인증번호 6자리 입력"}
               onChange={emailVerificationNumber.onChange}
               autoComplete={"off"}
-              max={"6"}
+              maxLength={6}
             />
             <p>
               이미 가입된 이메일인 경우, 인증번호를 받을 수 없습니다.
