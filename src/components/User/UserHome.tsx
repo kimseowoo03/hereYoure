@@ -1,9 +1,14 @@
 import style from "../../styles/user/UserHome.module.scss";
 import UserInfoFixModal from "../../modals/UserInfoFixModal";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import useUIState from "../../store/useUIState";
 import WorkRoomRegisterModal from "../../modals/WorkRoomRegisterModal";
 import WorkRoomCard from "./WorkRoomCard";
+
+import { AxiosError } from "axios";
+import api from "../../axiosConfig";
+
+import { useAccessToken } from "../../store/useAccessTokenState";
 
 export interface IWORKROOM_DATA {
   id: string;
@@ -41,6 +46,39 @@ const UserHome = () => {
   const { editModalOpen, setEditModalOpen } = useUIState();
   const { registerModalOpen, setRegisterModalOpen } = useUIState();
 
+  const {accessToken, setAccessToken} = useAccessToken();
+
+  useEffect(() => {
+    const WorkRoomData = async () => {
+      try {
+        //access token 확인
+        if (!accessToken) {
+          const storedAccessToken = localStorage.getItem("accessToken");
+          if (storedAccessToken) {
+            setAccessToken(storedAccessToken);
+          }
+        }
+        console.log(accessToken, "저장 됨.");
+        const res = await api.get("/workroom", {
+          headers: {
+            // Authorization: `Bearer ${accessToken}`,
+            token: accessToken
+          },
+        });
+        console.log(res);
+      } catch (error) {
+        const err = error as AxiosError;
+        if (!err.response) {
+          console.log("response가 없습니다.");
+        } else {
+          console.log(err);
+          console.warn(`error: ${err.message}`);
+        }
+      }
+    };
+    WorkRoomData();
+  }, [accessToken, setAccessToken]);
+  
   return (
     <Fragment>
       {editModalOpen && <UserInfoFixModal />}
