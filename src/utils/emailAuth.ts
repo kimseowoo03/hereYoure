@@ -30,3 +30,27 @@ export const emailAuth = async (email: string) => {
     }
   }
 };
+
+export const checkEmailCode = async (email: string, code: string) => {
+  try {
+    const res: emailAuthResponse = await api.post("/user/checkemailcode", {
+      email,
+      code,
+    });
+    if (res.data.result) {
+      return { result: res.data.result, message: "인증이 성공했습니다." };
+    }
+  } catch (error) {
+    const err = error as AxiosError;
+    if (!err.response) {
+      console.log("response가 없습니다.");
+    } else if (err.status === 400 || err.status === 419) {
+      console.log(err.response.data);
+    } else if (err.status === 401) {
+      console.log(err.response.data);
+    } else {
+      console.warn(`error: ${err.message}`);
+    }
+    return null;
+  }
+};

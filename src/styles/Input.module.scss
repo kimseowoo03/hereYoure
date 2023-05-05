@@ -8,6 +8,9 @@
     border: 1px solid #969696;
     border-radius: 5px;
   }
+  input:focus {
+    border-color: #5353F9;
+  }
 }
 .form-input:first-child {
   margin-bottom: 12px;

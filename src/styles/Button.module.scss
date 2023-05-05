@@ -11,6 +11,10 @@
   border: none;
 }
 
+button:disabled {
+  background-color: #C8C8C8;
+}
+
 .cancel-button{
   background: white;
   color: #5353F9;
