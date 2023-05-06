@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 import style from "../../styles/Signup.module.scss";
 import useInput from "../../hooks/useInput";
 import Input from "../Input";
 import Button from "../Button";
 import { emailAuth, checkEmailCode } from "../../utils/emailAuth";
+import api from "../../axiosConfig";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [counter, setCounter] = useState(300);
   const [viewCounter, setViewCounter] = useState(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
@@ -105,10 +110,29 @@ const Signup = () => {
     setIntervalId(newIntervalId);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(name.value, email.value, password.value);
-    allInputValuesReset();
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    };
+
+    try {
+      const res = await api.post("/user/register", data);
+      if (res.data.result) {
+        alert("회원가입 완료");
+        navigate("/login");
+        allInputValuesReset();
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      if (!err.response) {
+        console.log("response가 없습니다.");
+      } else {
+        console.warn(`error: ${err.message}`);
+      }
+    }
   };
 
   const handleConfirmPasswordBlur = () => {

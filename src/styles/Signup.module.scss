@@ -86,16 +86,17 @@ span{
 
 .inner-button{
   border: none;
-    text-decoration: none;
-    color: white;
-    padding: 9px 15px;
-    font-size: 12px;
-    position: absolute;
-    right: 8px;
-    top: -4px;
-    margin: 0;
-    background: #4B4B4B;
-    border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  padding: 9px 15px;
+  font-size: 12px;
+  position: absolute;
+  right: 8px;
+  top: -4px;
+  margin: 0;
+  background: #4B4B4B;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .auth-timer{
   position: absolute;
