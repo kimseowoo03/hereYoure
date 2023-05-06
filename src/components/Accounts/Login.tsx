@@ -1,12 +1,12 @@
-import api from "../../axiosConfig";
+import { useState } from "react";
 
-import { useAccessToken } from "../../store/useAccessTokenState";
+import api from "../../axiosConfig";
+import { AxiosError } from "axios";
 
 import useInput from "../../hooks/useInput";
 import style from "../../styles/Login.module.scss";
 import Button from "../Button";
 import Input from "../Input";
-import { useState } from "react";
 
 interface LoginResponse {
   status: number;
@@ -20,7 +20,6 @@ interface LoginResponse {
 const Login = () => {
   const email = useInput("");
   const password = useInput("");
-  // const accessToken = useAccessToken((state) => state.accessToken);
 
   const [errorText, setErrorText] = useState(false);
 
@@ -29,31 +28,38 @@ const Login = () => {
     password.reset();
   };
 
-  const setRefreshToken = (refreshToken: string) => {
+  const saveTokensToLocalStorage = (refreshToken: string, accessToken: string) => {
     localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("accessToken", accessToken)
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const res: LoginResponse = await api.post("/api/auth/login", {
+      console.log("요청")
+      const res: LoginResponse = await api.post("/auth/login", {
         email: "test2@test.com",
         password: "222222",
       });
+      console.log(res)
+      
       if (res.status === 200) {
         setErrorText(false);
         const resAccessToken = res.data.accessToken;
         const resRefreshToken = res.data.refreshToken;
 
-        // 각 위치에 토큰 저장
-        useAccessToken.getState().setAccessToken(resAccessToken);
-        setRefreshToken(resRefreshToken);
+        // 로컬에 토큰 저장
+        saveTokensToLocalStorage(resRefreshToken, resAccessToken);
+
         allInputValuesReset();
       }
     } catch (error) {
-      console.log((error as Error).message, "401에러임");
-      password.reset();
-      setErrorText(true);
+      const err = error as AxiosError;
+      if (!err.response) {
+        console.warn("response가 없습니다.");
+      } else {
+        console.warn(`error: ${err.message}`);
+      }
     }
   };
 
