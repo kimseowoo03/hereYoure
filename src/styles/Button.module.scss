@@ -9,6 +9,11 @@
   background: #5353F9;
   color: white;
   border: none;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #C8C8C8;
 }
 
 .cancel-button{
