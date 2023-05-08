@@ -25,6 +25,8 @@ const Signup = () => {
   const [isEmailCodeAuthed, setIsEmailCodeAuthed] = useState(false);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
 
   const name = useInput("");
@@ -38,7 +40,9 @@ const Signup = () => {
     isEmailCodeAuthed &&
     password.inputVaild &&
     confirmPassword.inputVaild &&
-    passwordMatch;
+    passwordMatch &&
+    isTermsChecked &&
+    isPrivacyChecked;
 
   const handlerNameBlur = () => {
     if (!name.value.toString().trim()) {
@@ -267,6 +271,34 @@ const Signup = () => {
                 }}
               />
               <span>비밀번호 표시</span>
+            </div>
+            <div className={style["terms-and-privacy"]}>
+              <div className={style.agree}>
+                <input
+                  type="checkbox"
+                  checked={isTermsChecked}
+                  onChange={() => {
+                    setIsTermsChecked(!isTermsChecked);
+                  }}
+                />
+                <span>서비스이용 약관 동의 (필수) </span>
+                <a href="https://hereyoure.notion.site/c965eee420a646a0ad8be2dbabde9167">
+                  보기
+                </a>
+              </div>
+              <div className={style.agree}>
+                <input
+                  type="checkbox"
+                  checked={isPrivacyChecked}
+                  onChange={() => {
+                    setIsPrivacyChecked(!isPrivacyChecked);
+                  }}
+                />
+                <span>개인정보 수집 및 이용 동의 (필수) </span>
+                <a href="https://hereyoure.notion.site/9f396b1cefe54044af82d64546a8c533">
+                  보기
+                </a>
+              </div>
             </div>
             <Button
               disabled={!isFormValid}
