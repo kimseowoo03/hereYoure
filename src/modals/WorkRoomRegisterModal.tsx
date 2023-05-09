@@ -11,7 +11,7 @@ import useUIState from "../store/useUIState";
 const WorkRoomRegisterModal = () => {
   const [taxSelect, setTaxSelect] = useState(false);
   const [taxSelectedValue, setTaxSelectedValue] = useState("");
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
+
   const [weeklyInclude, setWeeklyInclude] = useState(false);
   const [overtimeInclude, setOvertimeInclude] = useState(false);
   const [nightInclude, setNightInclude] = useState(false);
@@ -20,6 +20,17 @@ const WorkRoomRegisterModal = () => {
   const WorkRoomPassword = useInput("");
 
   const { setRegisterModalOpen } = useUIState();
+
+  const isFormValid = WorkRoomName.inputVaild && WorkRoomPassword.inputVaild && taxSelectedValue
+
+  const WorkRoomNameBlur = () => {
+    if (!WorkRoomName.value.toString().trim()) {
+      WorkRoomName.checkVaild(false);
+      WorkRoomName.onBlurTouch(true);
+    } else {
+      WorkRoomName.checkVaild(true);
+    }
+  }
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -47,18 +58,27 @@ const WorkRoomRegisterModal = () => {
   };
 
   const handleWorkRoomPasswordBlur = () => {
+    const trimmedPassword = WorkRoomPassword.value.toString().trim();
     let reg = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{10,}$/;
-    setIsPasswordValid(reg.test(WorkRoomPassword.value.toString()));
+
+    if (!trimmedPassword || !reg.test(trimmedPassword)) {
+      WorkRoomPassword.checkVaild(false);
+      WorkRoomPassword.onBlurTouch(true);
+    } else {
+      WorkRoomPassword.checkVaild(true);
+    }
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const regex = /\d+\.\d+/g;
+    const taxSelectedValueNumber = taxSelectedValue.match(regex)?.toString(); 
     event.preventDefault();
     console.log(
       WorkRoomName.value,
       "/",
       WorkRoomPassword.value,
       "/",
-      taxSelectedValue,
+      taxSelectedValueNumber,
       "/",
       "수당 여부",
       weeklyInclude,
@@ -78,31 +98,38 @@ const WorkRoomRegisterModal = () => {
             onChange={WorkRoomName.onChange}
             placeholder={"근무방 이름 입력"}
             autoComplete={"off"}
+            onBlur={WorkRoomNameBlur}
           />
+          {WorkRoomName.inputTouched && !WorkRoomName.inputVaild && (
+            <p className={style.alert}>근무방 이름을 입력해주세요.</p>
+          )}
           <Input
             type={"text"}
             label={"근무방 비밀번호"}
             value={WorkRoomPassword.value}
             onChange={WorkRoomPassword.onChange}
-            placeholder={"근무방에 접속할 때 필요한 비밀번호 입력"}
+            placeholder={"근무방 전용 비밀번호 입력"}
             autoComplete={"off"}
             onBlur={handleWorkRoomPasswordBlur}
-          />
-          {!isPasswordValid && (
+          >
+            <CopyToClipboard
+              text={String(WorkRoomPassword.value)}
+              onCopy={() =>
+                alert(
+                  `근무방 비밀번호 '${WorkRoomPassword.value}' 복사됐습니다.`
+                )
+              }
+            >
+              <button type={"button"} className={style["inner-button"]}>
+                복사
+              </button>
+            </CopyToClipboard>
+          </Input>
+          {!WorkRoomPassword.inputVaild && WorkRoomPassword.inputTouched && (
             <p className={style.alert}>
               10자 이상, 영문 대 소문자, 숫자를 사용하세요.
             </p>
           )}
-          <CopyToClipboard
-            text={String(WorkRoomPassword.value)}
-            onCopy={() =>
-              alert(`근무방 비밀번호${WorkRoomPassword.value}가 복사됐습니다.`)
-            }
-          >
-            <button type={"button"} className={style["inner-button"]}>
-              복사
-            </button>
-          </CopyToClipboard>
           <div className={style["tax-content"]}>
             <p>세금</p>
             <div className={style["tax-select-box"]}>
@@ -207,14 +234,14 @@ const WorkRoomRegisterModal = () => {
             </div>
           </div>
           <div className={style["button-div"]}>
-                <Button
-                  children={"취소"}
-                  type={"button"}
-                  isCancel={true}
-                  onClick={setRegisterModalOpen}
-                />
-                <Button children={"등록하기"} type={"submit"} />
-              </div>
+            <Button
+              children={"취소"}
+              type={"button"}
+              isCancel={true}
+              onClick={setRegisterModalOpen}
+            />
+            <Button children={"등록하기"} type={"submit"} disabled={!isFormValid} />
+          </div>
         </form>
       </div>
     </BaseModal>

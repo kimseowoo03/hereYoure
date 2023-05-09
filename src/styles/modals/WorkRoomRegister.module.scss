@@ -1,5 +1,7 @@
 .form{
+ & > div:nth-of-type(2){
   position: relative;
+ }
 }
 .inner-button{
   border: none;
@@ -8,8 +10,8 @@
   color: inherit;
   font-size: 12px;
   position: absolute;
-  right: 8px;
-  top: 125px;
+  right: 16px;
+  top: 36px;
   margin: 0;
   color: white;
   background: #5353F9;
@@ -20,7 +22,7 @@
   color: #D62929;
   font-size: 12px;
   margin-top: 10px ;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 .tax-content {
   p{
