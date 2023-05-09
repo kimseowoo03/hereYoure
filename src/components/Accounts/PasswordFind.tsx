@@ -11,7 +11,7 @@ import { emailAuth, checkEmailCode } from "../../utils/emailAuth";
 
 const PasswordFind = () => {
   const navigate = useNavigate();
-  const { setEmailAuth } = useAuthState();
+  const { setEmailAuth, setUserEmail } = useAuthState();
   const email = useInput("");
   const emailVerificationNumber = useInput("");
 
@@ -50,6 +50,7 @@ const PasswordFind = () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
+      setUserEmail(email.value.toString())
       setIsEmailCodeAuthed(true);
     } else {
       setIsEmailCodeAuthed(false);
