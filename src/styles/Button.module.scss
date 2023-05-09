@@ -20,4 +20,12 @@ button:disabled {
   background: white;
   color: #5353F9;
   border: 1px solid #5353F9;
+  cursor: pointer;
+}
+
+.cancel-button:hover{
+  background: #5353F9;
+  color: white;
+  border: 1px solid #5353F9;
+  cursor: pointer;
 }
