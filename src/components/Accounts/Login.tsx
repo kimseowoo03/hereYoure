@@ -1,7 +1,8 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import api from "../../axiosConfig";
 import { AxiosError } from "axios";
+import CryptoJS from "crypto-js";
 
 import useInput from "../../hooks/useInput";
 import style from "../../styles/Login.module.scss";
@@ -18,6 +19,8 @@ interface LoginResponse {
 }
 
 const Login = () => {
+  const navigate = useNavigate();
+  
   const email = useInput("");
   const password = useInput("");
 
@@ -35,23 +38,26 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const passwordValue = password.value.toString();
+    const secretKey = process.env.REACT_APP_SECRET_KEY || 'default_secret_key';
+
+    const encryptedPassword = CryptoJS.AES.encrypt( passwordValue, secretKey).toString();
     try {
       console.log("요청")
       const res: LoginResponse = await api.post("/auth/login", {
-        email: "test2@test.com",
-        password: "222222",
+        email: email.value,
+        password: encryptedPassword,
       });
-      console.log(res)
       
-      if (res.status === 200) {
+      if (res.data.result) {
         setErrorText(false);
         const resAccessToken = res.data.accessToken;
         const resRefreshToken = res.data.refreshToken;
 
         // 로컬에 토큰 저장
         saveTokensToLocalStorage(resRefreshToken, resAccessToken);
-
         allInputValuesReset();
+        navigate("../mypage")
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -69,7 +75,7 @@ const Login = () => {
         <h1>로그인</h1>
         <form onSubmit={handleSubmit} className={style.form}>
           <Input
-            label={"로그인"}
+            label={"이메일"}
             type={"email"}
             value={email.value}
             placeholder={"이메일 입력"}
