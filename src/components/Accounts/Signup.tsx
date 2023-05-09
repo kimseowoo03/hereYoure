@@ -7,6 +7,8 @@ import Input from "../Input";
 import Button from "../Button";
 import { emailAuth, checkEmailCode } from "../../utils/emailAuth";
 import api from "../../axiosConfig";
+import CryptoJS from "crypto-js";
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -114,31 +116,6 @@ const Signup = () => {
     setIntervalId(newIntervalId);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-    };
-
-    try {
-      const res = await api.post("/user/register", data);
-      if (res.data.result) {
-        alert("회원가입 완료");
-        navigate("/login");
-        allInputValuesReset();
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      if (!err.response) {
-        console.log("response가 없습니다.");
-      } else {
-        console.warn(`error: ${err.message}`);
-      }
-    }
-  };
-
   const handleConfirmPasswordBlur = () => {
     if (!confirmPassword.value.toString().trim()) {
       confirmPassword.onBlurTouch(true);
@@ -161,6 +138,36 @@ const Signup = () => {
     } else if (trimmedPassword) {
       password.checkVaild(true);
       setPasswordMatch(password.value === confirmPassword.value);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const passwordValue = password.value.toString();
+    const secretKey = process.env.REACT_APP_SECRET_KEY || 'default_secret_key';
+
+    const encryptedPassword = CryptoJS.AES.encrypt( passwordValue, secretKey).toString();
+
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: encryptedPassword,
+    };
+
+    try {
+      const res = await api.post("/user/register", data);
+      if (res.data.result) {
+        alert("회원가입 완료");
+        navigate("/login");
+        allInputValuesReset();
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      if (!err.response) {
+        console.log("response가 없습니다.");
+      } else {
+        console.warn(`error: ${err.message}`);
+      }
     }
   };
 
