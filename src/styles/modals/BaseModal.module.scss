@@ -20,13 +20,29 @@
   align-items: center;
 }
 .modal {
+  //세로 스크롤
+  height: 500px;
+
+  position: relative;
   margin: 0 20px;
-  padding: 3.75rem 6.875rem;
-  max-width: 520px;
+  padding: 3.75rem 6.25rem;
+  max-width: 480px;
   width: 100%;
 
   background-color: white;
   border-radius: 10px;
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
+}
+
+@media screen and (min-width: 376px) and (max-width: 652px) {
+  .modal {
+    padding: 3.75rem 2.25rem;
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .modal{
+    padding: 3.75rem 1rem;
+  }
 }
