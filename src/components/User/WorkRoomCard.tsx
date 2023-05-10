@@ -1,14 +1,19 @@
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { IWORKROOM_DATA } from "./UserHome";
 import style from "../../styles/user/WorkRoomCard.module.scss";
 import {ReactComponent as NextIcon} from "../../assets/next-icon.svg";
 
+const MAX_NAME_LENGTH = 15;
+
 const WorkRoomCard = (props: IWORKROOM_DATA) => {
-  const MAX_NAME_LENGTH = 15;
-  let title = props.title;
-  if (props.title.length > MAX_NAME_LENGTH) {
-    title = props.title.substring(0, MAX_NAME_LENGTH) + "...";
-  }
+  
+  const title= useMemo(() => {
+    if (props.title.length > MAX_NAME_LENGTH) {
+      return props.title.substring(0, MAX_NAME_LENGTH) + "...";
+    }
+    return props.title;
+  }, [props.title]);
 
   return (
     <li className={style.content}>

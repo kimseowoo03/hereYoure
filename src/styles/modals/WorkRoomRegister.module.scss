@@ -1,14 +1,12 @@
 .content{
-  height: 100%;
   position: relative;
   .cancel-icon{
     display: none;
    }
 }
 .form{
-  height: 100%;
   .form-content{
-     height: 80%;
+     max-height: 360px;
      overflow-x:hidden; 
      overflow-y:auto; 
     & > div:nth-of-type(2){
@@ -136,7 +134,7 @@
   display: none;
 }
 
-@media screen and (min-width: 376px) and (max-width: 652px) {
+@media screen and (max-width: 652px) {
   .content{
     .cancel-icon{
       display: inline;
@@ -165,29 +163,10 @@
 }
 
 @media screen and (max-width: 410px) {
-  .content{
-    .cancel-icon{
-      display: inline;
-      position: absolute;
-      cursor: pointer;
-      top: -30px;
-      right: 0px;
-     }
-  }
   .allowance-content{
     padding: 32px 40px;
   }
-  .form{
-    .button-div{
-      button:nth-of-type(1){
-        display: none;
-      }
-    }
-   }
    .allowance-content{
     padding: 30px 16px;
-    .description-box{
-      font-size: 0.875rem;
-    }
   }
 }
