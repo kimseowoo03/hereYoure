@@ -7,6 +7,8 @@ import Input from "../Input";
 import Button from "../Button";
 import { emailAuth, checkEmailCode } from "../../utils/emailAuth";
 import api from "../../axiosConfig";
+import CryptoJS from "crypto-js";
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ const Signup = () => {
   const [isEmailCodeAuthed, setIsEmailCodeAuthed] = useState(false);
 
   const [isChecked, setIsChecked] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [isPrivacyChecked, setIsPrivacyChecked] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
 
   const name = useInput("");
@@ -38,7 +42,9 @@ const Signup = () => {
     isEmailCodeAuthed &&
     password.inputVaild &&
     confirmPassword.inputVaild &&
-    passwordMatch;
+    passwordMatch &&
+    isTermsChecked &&
+    isPrivacyChecked;
 
   const handlerNameBlur = () => {
     if (!name.value.toString().trim()) {
@@ -110,31 +116,6 @@ const Signup = () => {
     setIntervalId(newIntervalId);
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-    };
-
-    try {
-      const res = await api.post("/user/register", data);
-      if (res.data.result) {
-        alert("회원가입 완료");
-        navigate("/login");
-        allInputValuesReset();
-      }
-    } catch (error) {
-      const err = error as AxiosError;
-      if (!err.response) {
-        console.log("response가 없습니다.");
-      } else {
-        console.warn(`error: ${err.message}`);
-      }
-    }
-  };
-
   const handleConfirmPasswordBlur = () => {
     if (!confirmPassword.value.toString().trim()) {
       confirmPassword.onBlurTouch(true);
@@ -157,6 +138,36 @@ const Signup = () => {
     } else if (trimmedPassword) {
       password.checkVaild(true);
       setPasswordMatch(password.value === confirmPassword.value);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const passwordValue = password.value.toString();
+    const secretKey = process.env.REACT_APP_SECRET_KEY || 'default_secret_key';
+
+    const encryptedPassword = CryptoJS.AES.encrypt( passwordValue, secretKey).toString();
+
+    const data = {
+      name: name.value,
+      email: email.value,
+      password: encryptedPassword,
+    };
+
+    try {
+      const res = await api.post("/user/register", data);
+      if (res.data.result) {
+        alert("회원가입 완료");
+        navigate("/login");
+        allInputValuesReset();
+      }
+    } catch (error) {
+      const err = error as AxiosError;
+      if (!err.response) {
+        console.log("response가 없습니다.");
+      } else {
+        console.warn(`error: ${err.message}`);
+      }
     }
   };
 
@@ -267,6 +278,34 @@ const Signup = () => {
                 }}
               />
               <span>비밀번호 표시</span>
+            </div>
+            <div className={style["terms-and-privacy"]}>
+              <div className={style.agree}>
+                <input
+                  type="checkbox"
+                  checked={isTermsChecked}
+                  onChange={() => {
+                    setIsTermsChecked(!isTermsChecked);
+                  }}
+                />
+                <span>서비스이용 약관 동의 (필수) </span>
+                <a href="https://hereyoure.notion.site/c965eee420a646a0ad8be2dbabde9167">
+                  보기
+                </a>
+              </div>
+              <div className={style.agree}>
+                <input
+                  type="checkbox"
+                  checked={isPrivacyChecked}
+                  onChange={() => {
+                    setIsPrivacyChecked(!isPrivacyChecked);
+                  }}
+                />
+                <span>개인정보 수집 및 이용 동의 (필수) </span>
+                <a href="https://hereyoure.notion.site/9f396b1cefe54044af82d64546a8c533">
+                  보기
+                </a>
+              </div>
             </div>
             <Button
               disabled={!isFormValid}

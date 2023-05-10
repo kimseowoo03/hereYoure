@@ -6,6 +6,7 @@ $primary-color:  #5353F9;
 }
 .content{
   max-width: 650px;
+  padding: 20px 20px;
   margin: 0 auto;
   & > p {
     color: #393939;
@@ -20,7 +21,7 @@ $primary-color:  #5353F9;
   border: 1px solid #C8C8C8;
   border-radius: 10px;
   background: #FFFFFF;
-  padding: 60px 80px;
+  padding: 60px 60px;
 }
 .form{
   .alert{
@@ -76,7 +77,7 @@ $primary-color:  #5353F9;
     margin: 0;
   }
   input, progress {
-  accent-color: $primary-color;;
+  accent-color: $primary-color;
 }
 span{
   margin-left: 8px;
@@ -106,4 +107,79 @@ span{
 }
 .display-none{
   display: none;
+}
+
+.terms-and-privacy::before{
+  content: "";
+  display: block;
+  border-bottom: 1px solid #D8D8D8;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.terms-and-privacy{
+  margin-top: 16px;
+  .agree{
+    display: grid;
+    grid-template-columns: 0fr 1fr 0.1fr;
+    align-items: center;
+    input{
+      width: 18px;
+      height: 18px;
+      border-radius: 2px;
+      margin: 0;
+    }
+    input, progress {
+    accent-color: $primary-color;
+    }
+    span{
+      margin-left: 8px;
+      font-size: 14px;
+    }
+    a{
+      width: 40px;
+      color: #929292;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+@media screen and (min-width: 376px) and (max-width: 652px) {
+  .layout{
+    margin-top: 80px;
+  }
+  .content-border{
+    border: 0;
+    padding: 10px 20px
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .layout{
+    margin-top: 60px;
+  }
+    .content{
+    h1{
+      font-size: 1.75rem
+    }
+    & > p {
+      color: #393939;
+      margin-bottom: 40px;
+      letter-spacing: -0.02em;
+      font-size: 0.875rem;
+    }
+  }
+  .content-border{
+    border: 0;
+    padding: 0;
+  }
+  .form{
+    .emailAuth-message{
+      font-size: 0.75rem;
+    }
+  }
+  .inner-button{
+    padding: 9px 12px;
+    font-size: 12px;
+  }
 }
