@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { IWORKROOM_DATA } from "./UserHome";
 import style from "../../styles/user/WorkRoomCard.module.scss";
+import {ReactComponent as NextIcon} from "../../assets/next-icon.svg";
 
 const WorkRoomCard = (props: IWORKROOM_DATA) => {
   const MAX_NAME_LENGTH = 15;
@@ -18,7 +19,9 @@ const WorkRoomCard = (props: IWORKROOM_DATA) => {
       </div>
       <p>{title}</p>
       <div className={style.button}>
-        <Link to={`/workroom/${props.id}`}>{">"}</Link>
+        <Link to={`/workroom/${props.id}`}>
+        <NextIcon />
+        </Link>
       </div>
     </li>
   );
