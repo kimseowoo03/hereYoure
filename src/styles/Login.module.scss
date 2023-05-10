@@ -37,3 +37,11 @@
     color: #5353F9;
   }
 }
+
+@media screen and (max-width: 375px) {
+  .content{
+    h1{
+      font-size: 1.75rem
+    }
+  }
+}
