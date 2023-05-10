@@ -1,6 +1,6 @@
 import style from "../../styles/user/UserHome.module.scss";
 import UserInfoFixModal from "../../modals/UserInfoFixModal";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useUIState from "../../store/useUIState";
 import WorkRoomRegisterModal from "../../modals/WorkRoomRegisterModal";
 import WorkRoomCard from "./WorkRoomCard";
@@ -11,42 +11,19 @@ import api from "../../axiosConfig";
 import { useAccessToken } from "../../store/useAccessTokenState";
 
 export interface IWORKROOM_DATA {
-  id: string;
-  name: string;
-  weeklyInclude: boolean;
-  overtimeInclude: boolean;
-  nightInclude: boolean;
+  id: number;
+  title: string;
+  weekly_pay: boolean;
+  overtime_pay: boolean;
+  night_pay: boolean;
 }
-
-const WORKROOM_DATA: IWORKROOM_DATA[] = [
-  {
-    id: "kikiqwoojjjwpxi23we",
-    name: "인터라켓 PC방",
-    weeklyInclude: true,
-    overtimeInclude: false,
-    nightInclude: false,
-  },
-  {
-    id: "oxiuwnek23nixc5721s",
-    name: "관악 난곡점 히어유얼 스터디카페 ",
-    weeklyInclude: true,
-    overtimeInclude: true,
-    nightInclude: true,
-  },
-  {
-    id: "wkejkl123243sad",
-    name: "신림사거리 고기싸롱",
-    weeklyInclude: true,
-    overtimeInclude: true,
-    nightInclude: false,
-  },
-];
 
 const UserHome = () => {
   const { editModalOpen, setEditModalOpen } = useUIState();
   const { registerModalOpen, setRegisterModalOpen } = useUIState();
+  const [workrooms, setWorkrooms] = useState<IWORKROOM_DATA[]>([]);
 
-  const {accessToken, setAccessToken} = useAccessToken();
+  const { accessToken, setAccessToken } = useAccessToken();
 
   useEffect(() => {
     const WorkRoomData = async () => {
@@ -56,29 +33,30 @@ const UserHome = () => {
           const storedAccessToken = localStorage.getItem("accessToken");
           if (storedAccessToken) {
             setAccessToken(storedAccessToken);
+          } else {
+            return;
           }
         }
-        console.log(accessToken, "저장 됨.");
-        const res = await api.get("/workroom", {
-          headers: {
-            // Authorization: `Bearer ${accessToken}`,
-            token: accessToken
-          },
-        });
-        console.log(res);
+        if (accessToken) {
+          const res = await api.get("/workroom", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          setWorkrooms(res.data.data.workrooms);
+        }
       } catch (error) {
         const err = error as AxiosError;
         if (!err.response) {
-          console.log("response가 없습니다.");
+          console.warn("response가 없습니다.");
         } else {
-          console.log(err);
           console.warn(`error: ${err.message}`);
         }
       }
     };
     WorkRoomData();
   }, [accessToken, setAccessToken]);
-  
+
   return (
     <Fragment>
       {editModalOpen && <UserInfoFixModal />}
@@ -104,20 +82,24 @@ const UserHome = () => {
             </div>
             <div className={style["list-container"]}>
               <ul>
-                {WORKROOM_DATA.map((workRoom) => {
+                {workrooms.map((workRoom) => {
                   return (
                     <WorkRoomCard
                       key={workRoom.id}
                       id={workRoom.id}
-                      name={workRoom.name}
-                      weeklyInclude={workRoom.weeklyInclude}
-                      overtimeInclude={workRoom.overtimeInclude}
-                      nightInclude={workRoom.nightInclude}
+                      title={workRoom.title}
+                      weekly_pay={workRoom.weekly_pay}
+                      overtime_pay={workRoom.overtime_pay}
+                      night_pay={workRoom.night_pay}
                     />
                   );
                 })}
               </ul>
-              {/* <p className={style["no-workroom"]}>등록된 근무방이 없습니다.</p> */}
+              {workrooms.length === 0 && (
+                <p className={style["no-workroom"]}>
+                  등록된 근무방이 없습니다.
+                </p>
+              )}
             </div>
           </div>
         </div>
