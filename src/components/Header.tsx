@@ -1,5 +1,11 @@
+import { Link } from "react-router-dom";
+
+import { useAccessToken } from "../store/useAccessTokenState";
+
 import style from "../styles/Header.module.scss";
 const Header = () => {
+  const { accessToken, setAccessToken } = useAccessToken();
+
   return (
     <header className={style.header}>
       <nav className={style.nav}>
@@ -9,7 +15,13 @@ const Header = () => {
           </a>
         </div>
         <div className={style["login-btn"]}>
-          <a href="/login">로그인</a>
+          {accessToken ? (
+            <Link to="/" onClick={() => setAccessToken("")}>
+              로그아웃
+            </Link>
+          ) : (
+            <Link to="/login">로그인</Link>
+          )}
         </div>
       </nav>
     </header>
