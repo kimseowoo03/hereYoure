@@ -4,6 +4,7 @@
 .content{
   max-width: 840px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 .user-info{
   display: flex;
@@ -64,5 +65,34 @@
   }
   .no-workroom{
     padding-top: 225px;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .content{
+    h1{
+      font-size: 1.75rem;
+    }
+  }
+  .list-container{
+    ul{
+      flex-direction: column;
+    }
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .content{
+    h1{
+      font-size: 1.5rem;
+    }
+  }
+  .work-room-list{
+    h2{
+      font-size: 1.25rem;
+    }
+  }
+  .list-container{
+    padding: 28px 20px;
   }
 }

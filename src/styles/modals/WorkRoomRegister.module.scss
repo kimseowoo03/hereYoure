@@ -1,6 +1,20 @@
-.form{
+.content{
   position: relative;
+  .cancel-icon{
+    display: none;
+   }
 }
+.form{
+  .form-content{
+     max-height: 360px;
+     overflow-x:hidden; 
+     overflow-y:auto; 
+    & > div:nth-of-type(2){
+      position: relative;
+     }
+  }
+}
+
 .inner-button{
   border: none;
   padding: 9px 15px;
@@ -8,8 +22,8 @@
   color: inherit;
   font-size: 12px;
   position: absolute;
-  right: 8px;
-  top: 125px;
+  right: 16px;
+  top: 36px;
   margin: 0;
   color: white;
   background: #5353F9;
@@ -20,7 +34,7 @@
   color: #D62929;
   font-size: 12px;
   margin-top: 10px ;
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 .tax-content {
   p{
@@ -118,4 +132,41 @@
 
 .none{
   display: none;
+}
+
+@media screen and (max-width: 652px) {
+  .content{
+    .cancel-icon{
+      display: inline;
+      position: absolute;
+      cursor: pointer;
+      top: -30px;
+      right: 0px;
+     }
+  }
+  .allowance-content{
+    padding: 32px 30px;
+  }
+  .form{
+    .button-div{
+      button:nth-of-type(1){
+        display: none;
+      }
+    }
+   }
+  .allowance-content{
+    padding: 30px 28px;
+    .description-box{
+      font-size: 0.875rem;
+    }
+  }
+}
+
+@media screen and (max-width: 410px) {
+  .allowance-content{
+    padding: 32px 40px;
+  }
+   .allowance-content{
+    padding: 30px 16px;
+  }
 }
