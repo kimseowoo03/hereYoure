@@ -1,6 +1,46 @@
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import { AxiosError } from "axios";
 import style from "../../styles/WorkRoom/WorkRoom.module.scss";
+import { useAccessToken } from "../../store/useAccessTokenState";
+import api from "../../axiosConfig";
 
 const WorkRoomDetail = () => {
+  const { workroom } = useParams();
+  
+  const {accessToken, setAccessToken} = useAccessToken()
+  useEffect(()=> {
+    const WorkRoomDetailData = async () => {
+      try {
+        //access token 확인
+        if (!accessToken) {
+          const storedAccessToken = localStorage.getItem("accessToken");
+          if (storedAccessToken) {
+            setAccessToken(storedAccessToken);
+          }
+        }
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+
+        const res = await api.get(`/workroom/detail?id=${workroom}`, config)
+        console.log(res);
+      } catch (error) {
+        const err = error as AxiosError;
+        if (!err.response) {
+          console.log("response가 없습니다.");
+        } else {
+          console.log(err);
+          console.warn(`error: ${err.message}`);
+        }
+      }
+    };
+    WorkRoomDetailData();
+  })
   return (
     <div className={style.layout}>
       <div className={style.content}>
