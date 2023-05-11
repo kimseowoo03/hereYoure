@@ -66,11 +66,12 @@ $Secondary-background: #F2F4F9;
   .info{
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: center;
     p{
       margin: 0;
       color: $secondary-color;
       letter-spacing: -0.02em;
+      padding-right: 10px;
     }
     h2{
       margin: 0;
@@ -89,7 +90,7 @@ $Secondary-background: #F2F4F9;
 
   .list-info{
     margin-top: 16px;
-    padding: 0 20px;
+    padding: 0 40px;
     background: $Secondary-background;
     border-radius: 5px;
 
@@ -133,11 +134,54 @@ $Secondary-background: #F2F4F9;
   }
 }
 
-@media screen and (max-width: 520px){
+@media screen and (max-width: 500px){
+  .layout{
+    margin-top: 50px;
+  }
   .list-info{
     display: none !important;
-    li {
-      background-color: #1d1d1f;
+  }
+  .list{
+    ul{
+      gap: 16px !important;
+    }
+  }
+  .worker-list{
+    p{
+      font-size: 0.875rem; 
+    }
+  }
+}
+
+@media screen and (max-width: 400px){
+  .layout{
+    margin-top: 30px;
+  }
+  .content{
+    padding: 0;
+  }
+  .info, .workroom-info-contnent, .breadcrum{
+    padding: 0 20px;
+  }
+  .breadcrum{
+    p{
+      font-size: 0.75rem;
+    }
+  }
+  .workroom-info-contnent{
+    margin-bottom: 60px;
+    .workroom-info{
+      h1{
+        font-size: 1.75rem;
+      }
+    }
+  }
+  .worker-list{
+    h2{
+      font-size: 1.375rem;
+    }
+    p{
+      font-size: 0.75rem; 
     }
   }
 }
