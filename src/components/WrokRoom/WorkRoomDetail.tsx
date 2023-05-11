@@ -5,6 +5,50 @@ import { AxiosError } from "axios";
 import style from "../../styles/WorkRoom/WorkRoom.module.scss";
 import { useAccessToken } from "../../store/useAccessTokenState";
 import api from "../../axiosConfig";
+import WorkerCard from "./WorkerCard";
+
+export interface IWORKER_DATA {
+  id: number;
+  name: string;
+  age: number;
+  gender: string;
+  phoneNumber: string;
+  accountNumber?: string;
+  bank?: string;
+  wage?: string;
+  createAt?: string;
+}
+
+const WORKERDATA:IWORKER_DATA[] = [
+  {
+    id: 1,
+    name: "김서우",
+    age: 21,
+    gender: "여",
+    phoneNumber: "01012345611",
+  },
+  {
+    id: 2,
+    name: "김서우",
+    age: 21,
+    gender: "여",
+    phoneNumber: "01012345611",
+  },
+  {
+    id: 3,
+    name: "김서우",
+    age: 21,
+    gender: "여",
+    phoneNumber: "01012345611",
+  },
+  {
+    id: 4,
+    name: "김서우",
+    age: 21,
+    gender: "여",
+    phoneNumber: "01012345611",
+  },
+];
 
 const WorkRoomDetail = () => {
   const { workroom } = useParams();
@@ -75,30 +119,18 @@ const WorkRoomDetail = () => {
           </div>
           <div className={style.list}>
             <ul>
-              <li>
-                <p>김서우</p>
-                <p>21세</p>
-                <p>여</p>
-                <p>010-1234-5678</p>
-              </li>
-              <li>
-                <p>이름</p>
-                <p>나이</p>
-                <p>성별</p>
-                <p>전화번호</p>
-              </li>
-              <li>
-                <p>이름</p>
-                <p>나이</p>
-                <p>성별</p>
-                <p>전화번호</p>
-              </li>
-              <li>
-                <p>이름</p>
-                <p>나이</p>
-                <p>성별</p>
-                <p>전화번호</p>
-              </li>
+              {WORKERDATA.map((worker) => {
+                return (
+                  <WorkerCard
+                    key={worker.id}
+                    name={worker.name}
+                    id={worker.id}
+                    age={worker.age}
+                    gender={worker.gender}
+                    phoneNumber={worker.phoneNumber}
+                  />
+                );
+              })}
             </ul>
           </div>
         </div>

@@ -1,0 +1,14 @@
+li{
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.8fr;
+  justify-items: center;
+  background: white;
+  border: 1px solid #C8C8C8;
+  border-radius: 15px;
+}
+li:hover{
+  cursor: pointer;
+  background: #ECECFE;
+  border: 1px solid #5353F9;
+}
