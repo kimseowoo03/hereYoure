@@ -12,6 +12,9 @@ li{
   p{
     margin: 0;
   }
+  .next-icon{
+    display: none;
+  }
 }
 li:hover{
   cursor: pointer;
@@ -25,6 +28,9 @@ li:hover{
     grid-template-columns: 0.4fr 0.4fr 1fr;
     justify-items: auto;
     justify-items: start;
+    .next-icon{
+      display: inline;
+    }
   }
 
   //이름
@@ -33,10 +39,17 @@ li:hover{
     font-size: 1.125rem;
     font-weight: 700;
   }
+  .li > .next-icon {
+    grid-column: 3;
+    justify-self: end;
+  }
   
   .li > p:nth-child(n+2) {
     grid-row: 2;
     font-size: 0.938rem;
+  }
+  .li > p:nth-child(5){
+    justify-self: end;
   }
 }
 
