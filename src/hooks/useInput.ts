@@ -4,7 +4,7 @@ export type InputChangeEvent = ChangeEvent<HTMLInputElement>;
 
 type initialValue = string | number;
 
-interface UseInputReturn {
+export interface UseInputReturn {
   inputTouched: boolean;
   value: string | number;
   inputVaild: boolean;
