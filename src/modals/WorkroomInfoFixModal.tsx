@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import useInput from "../hooks/useInput";
 import useUIState from "../store/useUIState";
@@ -6,27 +6,72 @@ import CryptoJS from "crypto-js";
 import api from "../axiosConfig";
 import { useAccessToken } from "../store/useAccessTokenState";
 import WorkroomModal from "./WorkroomModal";
+import { useParams } from "react-router-dom";
+import { IWORKROOM_DATA } from "../components/User/UserHome";
 
-const WorkRoomRegisterModal = () => {
+const WORKROOMDETAILDATA: IWORKROOM_DATA = {
+  id: 10,
+  title: "근무방1",
+  tax: 3.3,
+  weekly_pay: 0,
+  overtime_pay: 1,
+  night_pay: 1,
+};
+
+const WorkroomInfoFixModal = () => {
+  const { workroom } = useParams();
+
   const [taxSelect, setTaxSelect] = useState(false);
+
   const [taxSelectedValue, setTaxSelectedValue] = useState("");
 
-  const [weeklyInclude, setWeeklyInclude] = useState(false);
-  const [overtimeInclude, setOvertimeInclude] = useState(false);
-  const [nightInclude, setNightInclude] = useState(false);
+  const [weeklyInclude, setWeeklyInclude] = useState(
+    WORKROOMDETAILDATA.weekly_pay !== 0
+  );
+  const [overtimeInclude, setOvertimeInclude] = useState(
+    WORKROOMDETAILDATA.overtime_pay !== 0
+  );
+  const [nightInclude, setNightInclude] = useState(
+    WORKROOMDETAILDATA.night_pay !== 0
+  );
 
-  const WorkRoomName = useInput("");
+  const WorkRoomName = useInput(WORKROOMDETAILDATA.title);
+
   const WorkRoomPassword = useInput("");
 
   const { accessToken } = useAccessToken();
 
-  const { setRegisterModalOpen } = useUIState();
+  const { setWorkroomEditModalOpen } = useUIState();
 
-  const isFormValid =
-    WorkRoomName.inputVaild &&
-    WorkRoomPassword.inputVaild &&
-    typeof taxSelectedValue === "string" &&
-    taxSelectedValue.length > 0;
+  useEffect(() => {
+    switch (WORKROOMDETAILDATA.tax) {
+      case 3.3:
+        setTaxSelectedValue("개인사업자 3.3%");
+        break;
+      case 9.4:
+        setTaxSelectedValue("4대보험 9.4%");
+        break;
+      case 0.0:
+        setTaxSelectedValue("적용안함 0.0%");
+        break;
+      default:
+        break;
+    }
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+    const fetchWorkroomData = async () => {
+      try {
+        //근무방 상세데이터 조회
+        // const res = await api.get(`/workroom/detail?id=${workroom}`, config)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchWorkroomData();
+  }, []);
+
+  const isFormValid = true;
 
   const WorkRoomNameBlur = () => {
     if (!WorkRoomName.value.toString().trim()) {
@@ -81,29 +126,38 @@ const WorkRoomRegisterModal = () => {
     );
 
     const passwordValue = WorkRoomPassword.value.toString();
-    const secretKey = process.env.REACT_APP_SECRET_KEY || "default_secret_key";
 
-    const encryptedPassword = CryptoJS.AES.encrypt(
-      passwordValue,
-      secretKey
-    ).toString();
+    const encryptedPassword = CryptoJS.SHA256(passwordValue).toString();
 
-    const data = {
-      title: WorkRoomName.value,
+    //이전 값과 비교해 달라진 것만 changedData 넣기
+    const data: IWORKROOM_DATA = {
+      id: workroom !== undefined ? parseInt(workroom) : undefined,
+      title: String(WorkRoomName.value),
       password: encryptedPassword,
       tax: taxSelectedValueNumber,
-      weekly_pay: weeklyInclude,
-      overtime_pay: overtimeInclude,
-      night_pay: nightInclude,
+      weekly_pay: weeklyInclude ? 1 : 0,
+      overtime_pay: overtimeInclude ? 1 : 0,
+      night_pay: nightInclude ? 1 : 0,
     };
 
+    const changedData: Partial<IWORKROOM_DATA> = {};
+
+    for (const key in WORKROOMDETAILDATA) {
+      if (
+        WORKROOMDETAILDATA.hasOwnProperty(key) &&
+        WORKROOMDETAILDATA[key] !== data[key]
+      ) {
+        changedData[key] = data[key];
+      }
+    }
+
+    console.log(changedData);
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
     };
 
     try {
-      const res = await api.post("/workroom", data, config);
-      console.log(res, "성공");
+      //근무방 수정 API 작업
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {
@@ -116,7 +170,7 @@ const WorkRoomRegisterModal = () => {
   };
 
   const workroomModalProps = {
-    workroom_title: "근무방 등록",
+    workroom_title: "근무방 수정",
     handleFormSubmit,
     WorkRoomName,
     WorkRoomNameBlur,
@@ -130,12 +184,12 @@ const WorkRoomRegisterModal = () => {
     weeklyInclude,
     overtimeInclude,
     nightInclude,
-    setModalOpen: setRegisterModalOpen,
+    setModalOpen: setWorkroomEditModalOpen,
     isFormValid,
-    submitButtomName: "등록하기",
+    submitButtomName: "변경하기",
   };
 
   return <WorkroomModal {...workroomModalProps} />;
 };
 
-export default WorkRoomRegisterModal;
+export default WorkroomInfoFixModal;

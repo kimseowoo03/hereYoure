@@ -11,11 +11,14 @@ import api from "../../axiosConfig";
 import { useAccessToken } from "../../store/useAccessTokenState";
 
 export interface IWORKROOM_DATA {
-  id: number;
+  id?: number;
   title: string;
-  weekly_pay: boolean;
-  overtime_pay: boolean;
-  night_pay: boolean;
+  tax?: number;
+  password?: string;
+  weekly_pay: number;
+  overtime_pay: number;
+  night_pay: number;
+  [key: string]: string | number | undefined;
 }
 
 const UserHome = () => {
@@ -43,6 +46,7 @@ const UserHome = () => {
               Authorization: `Bearer ${accessToken}`,
             },
           });
+          console.log(res.data.data.workrooms)
           setWorkrooms(res.data.data.workrooms);
         }
       } catch (error) {
