@@ -22,6 +22,7 @@ interface IWorkroomModal {
   nightInclude: boolean;
   setModalOpen: () => void;
   isFormValid: boolean;
+  submitButtomName: string;
 }
 
 const WorkroomModal: React.FC<IWorkroomModal> = ({
@@ -40,7 +41,8 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
   overtimeInclude,
   nightInclude,
   setModalOpen,
-  isFormValid
+  isFormValid,
+  submitButtomName
 }) => {
   return (
     <BaseModal>
@@ -128,6 +130,7 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
                     name="weekly-allowance"
                     value="include"
                     onChange={handleRadioChange}
+                    checked={weeklyInclude === true}
                   />
                   포함
                 </div>
@@ -155,6 +158,7 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
                     name="overtime-pay"
                     value="include"
                     onChange={handleRadioChange}
+                    checked={overtimeInclude === true}
                   />
                   포함
                 </div>
@@ -182,6 +186,7 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
                     name="night-allowance"
                     value="include"
                     onChange={handleRadioChange}
+                    checked={nightInclude === true}
                   />
                   포함
                 </div>
@@ -203,9 +208,10 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
               onClick={setModalOpen}
             />
             <Button
-              children={"등록하기"}
-              type={"submit"}
+              children={submitButtomName}
+              type={"button"}
               disabled={!isFormValid}
+              onClick={handleFormSubmit}
             />
           </div>
         </form>

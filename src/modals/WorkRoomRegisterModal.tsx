@@ -115,26 +115,27 @@ const WorkRoomRegisterModal = () => {
     }
   };
 
-  return (
-    <WorkroomModal
-      workroom_title={"근무방 등록"}
-      handleFormSubmit={handleFormSubmit}
-      WorkRoomName={WorkRoomName}
-      WorkRoomNameBlur={WorkRoomNameBlur}
-      WorkRoomPassword={WorkRoomPassword}
-      handleWorkRoomPasswordBlur={handleWorkRoomPasswordBlur}
-      taxSelectedValue={taxSelectedValue}
-      taxSelect={taxSelect}
-      setTaxSelect={setTaxSelect}
-      handleTaxSelectedClick={handleTaxSelectedClick}
-      handleRadioChange={handleRadioChange}
-      weeklyInclude={weeklyInclude}
-      overtimeInclude={overtimeInclude}
-      nightInclude={nightInclude}
-      setModalOpen={setRegisterModalOpen}
-      isFormValid={isFormValid}
-    />
-  );
+  const workroomModalProps = {
+    workroom_title: "근무방 등록",
+    handleFormSubmit,
+    WorkRoomName,
+    WorkRoomNameBlur,
+    WorkRoomPassword,
+    handleWorkRoomPasswordBlur,
+    taxSelectedValue,
+    taxSelect,
+    setTaxSelect,
+    handleTaxSelectedClick,
+    handleRadioChange,
+    weeklyInclude,
+    overtimeInclude,
+    nightInclude,
+    setModalOpen: setRegisterModalOpen,
+    isFormValid,
+    submitButtomName: "등록하기",
+  };
+
+  return <WorkroomModal {...workroomModalProps} />;
 };
 
 export default WorkRoomRegisterModal;
