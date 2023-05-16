@@ -39,11 +39,9 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const passwordValue = password.value.toString();
-    const secretKey = process.env.REACT_APP_SECRET_KEY || 'default_secret_key';
 
-    const encryptedPassword = CryptoJS.AES.encrypt( passwordValue, secretKey).toString();
+    const encryptedPassword = CryptoJS.SHA256( passwordValue).toString();
     try {
-      console.log("요청")
       const res: LoginResponse = await api.post("/auth/login", {
         email: email.value,
         password: encryptedPassword,
