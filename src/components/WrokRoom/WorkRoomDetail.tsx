@@ -8,6 +8,7 @@ import api from "../../axiosConfig";
 import WorkerCard from "./WorkerCard";
 import useUIState from "../../store/useUIState";
 import WorkerRegisterModal from "../../modals/WorkerRegisterModal";
+import WorkroomInfoFixModal from "../../modals/WorkroomInfoFixModal";
 
 export interface IWORKER_DATA {
   id: number;
@@ -55,7 +56,7 @@ const WORKERDATA:IWORKER_DATA[] = [
 const WorkRoomDetail = () => {
   const { workroom } = useParams();
 
-  const {workerRegisterModalOpen, setWorkerRegisterModalOpen} = useUIState()
+  const {workerRegisterModalOpen, setWorkerRegisterModalOpen, workroomEditModalOpen, setWorkroomEditModalOpen} = useUIState()
   
   const {accessToken, setAccessToken} = useAccessToken()
   useEffect(()=> {
@@ -92,6 +93,7 @@ const WorkRoomDetail = () => {
   return (
     <Fragment>
       {workerRegisterModalOpen && <WorkerRegisterModal />}
+      {workroomEditModalOpen && <WorkroomInfoFixModal />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
@@ -106,7 +108,7 @@ const WorkRoomDetail = () => {
             </div>
             <div className={style["workroom-info"]}>
               <h1>인터라켓PC</h1>
-              <button className={style["user-edit-button"]}>정보 수정</button>
+              <button className={style["user-edit-button"]} onClick={setWorkroomEditModalOpen}>정보 수정</button>
             </div>
           </div>
           <div className={style["worker-list"]}>
