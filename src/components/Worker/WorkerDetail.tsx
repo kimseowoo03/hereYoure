@@ -90,7 +90,7 @@ const WorkerDetail = () => {
         <article>
           <section>
             <div className={style["worker-info"]}>
-              <h1>인터라켓PC</h1>
+              <h1><span>김서우</span>님 근무정보</h1>
               <button className={style["user-edit-button"]}>정보 수정</button>
             </div>
             <WorkerInfoCards />
