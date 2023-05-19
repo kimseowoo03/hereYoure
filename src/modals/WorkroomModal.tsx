@@ -1,13 +1,13 @@
 import BaseModal from "./BaseModal";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import style from "../styles/modals/WorkroomModal.module.scss"
+import style from "../styles/modals/WorkroomModal.module.scss";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { UseInputReturn } from "../hooks/useInput";
 
 interface IWorkroomModal {
   workroom_title: string;
-  handleFormSubmit: () => void;
+  handleFormSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   WorkRoomName: UseInputReturn;
   WorkRoomNameBlur: () => void;
   WorkRoomPassword: UseInputReturn;
@@ -15,7 +15,9 @@ interface IWorkroomModal {
   taxSelectedValue: string;
   taxSelect: boolean;
   setTaxSelect: React.Dispatch<React.SetStateAction<boolean>>;
-  handleTaxSelectedClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
+  handleTaxSelectedClick: (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>
+  ) => void;
   handleRadioChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   weeklyInclude: boolean;
   overtimeInclude: boolean;
@@ -42,7 +44,7 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
   nightInclude,
   setModalOpen,
   isFormValid,
-  submitButtomName
+  submitButtomName,
 }) => {
   return (
     <BaseModal>
@@ -99,6 +101,7 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
                     <span>필수 입력</span>
                   )}
                   <img
+                  alt="next-icon"
                     src={
                       taxSelect ? "/images/upIcon.png" : "/images/downIcon.png"
                     }
@@ -209,14 +212,13 @@ const WorkroomModal: React.FC<IWorkroomModal> = ({
             />
             <Button
               children={submitButtomName}
-              type={"button"}
+              type={"submit"}
               disabled={!isFormValid}
-              onClick={handleFormSubmit}
             />
           </div>
         </form>
         <div onClick={setModalOpen} className={style["cancel-icon"]}>
-          <img src="/images/cancel.png" />
+          <img alt="cancel-icon" src="/images/cancel.png" />
         </div>
       </div>
     </BaseModal>
