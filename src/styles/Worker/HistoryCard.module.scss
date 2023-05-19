@@ -1,0 +1,90 @@
+$primary-color: #5353F7;
+
+.li{
+  padding: 12px 30px;
+  border: 1px solid #C8C8C8;
+  background: white;
+
+  display: grid;
+  grid-template-columns: 0.3fr 1fr 1.8fr 0.6fr 0.4fr auto;
+  align-items: center;
+  p{
+    margin: 0;
+  }
+  p:nth-of-type(2),
+  p:nth-of-type(3),
+  p:nth-of-type(4){
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .work-edit-button{
+    max-width: 42px;
+    padding: 6px 8px;
+    background-color: white;
+    border: 1px solid #727272;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .work-edit-button:hover{
+    border: 1px solid $primary-color;
+    color: $primary-color;
+  }
+}
+.li:hover{
+  background: #ECECFE;
+  border: 1px solid $primary-color;
+}
+
+@media screen and (max-width: 768px){
+  .li{
+    padding: 24px 20px;
+    gap: 8px;
+  }
+}
+
+@media screen and (max-width: 570px){
+  .li{
+    border-radius: 10px;
+    border: 1px solid white;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    div,
+    p:nth-of-type(1){
+      grid-row: 1;
+      grid-column: 1;
+      font-weight: 600;
+      padding-bottom: 10px;
+    }
+    div{
+    display: inline-grid;
+    justify-items: end;
+    }
+    p:nth-of-type(1){
+      border-bottom: 1px solid #C8C8C8;
+    }
+    p:nth-of-type(2):before{
+      content: "근무시간";
+    }
+    p:nth-of-type(3):before{
+      content: "시급";
+    }
+    p:nth-of-type(4):before{
+      content: "대리출근";
+    }
+    .work-edit-button{
+      max-width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 425px){
+  .li{
+    p:nth-of-type(2),
+    p:nth-of-type(3),
+    p:nth-of-type(4){
+      font-size: 0.875rem;
+    }
+  }
+}

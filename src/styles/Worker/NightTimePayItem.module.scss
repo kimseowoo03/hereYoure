@@ -1,0 +1,28 @@
+.content{
+  & > p {
+    color: #5353F7;
+  }
+}
+.custom-time-input{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  input[type="time"]{
+    padding: 6px 6px;
+    border: 1px solid #C8C8C8;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 96px;
+  }
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    color: transparent;
+    cursor: pointer;
+    background-image: url("../../assets/dropdown.svg");
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: contain;
+    padding: 0;
+    margin: 0;
+  }
+}
