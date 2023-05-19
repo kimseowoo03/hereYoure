@@ -27,7 +27,7 @@ const OverTimePayItem = ({
     <div className={style.content}>
       <p>(연장 근무 시간 x 계약시급) x 1.5</p>
       <div className={style["time-content"]}>
-        <p>하루 연장 기준 시간</p>
+        <p>연장시간</p>
         <div>
           <div className={style["time_dropdown"]}>
             <button onClick={() => setOverHourTime(!overHourTime)}>

@@ -11,7 +11,7 @@ export interface IWORKER_HISTORY {
   workerId: number;
 }
 
-const WORKER_HISTORY_DATA:IWORKER_HISTORY[] = [
+const WORKER_HISTORY_DATA: IWORKER_HISTORY[] = [
   {
     date: "2023-05-17",
     startTime: "11:00",
@@ -90,35 +90,37 @@ const WorkerDetail = () => {
         <article>
           <section>
             <div className={style["worker-info"]}>
-              <h1><span>김서우</span>님 근무정보</h1>
+              <h1>
+                <span>김서우</span>님 근무정보
+              </h1>
               <button className={style["user-edit-button"]}>정보 수정</button>
             </div>
             <WorkerInfoCards />
           </section>
           <section>
-            <div>
+            <div className={style["work-info"]}>
               <h2>근무정보</h2>
               <div>날짜 드롭다운</div>
             </div>
-            <div>
-              <div>
+            <div className={style["work-content"]}>
+              <div className={style["work-header"]}>
                 <div>
                   <p>전체선택</p>
-                  <button>삭제</button>
+                  <button className={style["work-delete-button"]}>삭제</button>
                 </div>
-                <button>근무등록</button>
+                <button className={style["work-register-button"]}>
+                  근무등록
+                </button>
               </div>
-              <div>
+              <div className={style["work-list-info"]}>
                 <p>근무날짜</p>
                 <p>근무시간</p>
-                <p>근무시급</p>
+                <p>시급</p>
                 <p>대리출근</p>
               </div>
-              <ul>
-                {WORKER_HISTORY_DATA.map((history) => {
-                  return (
-                    <HistoryCard {...history} />
-                  );
+              <ul className={style["work-list-contnet"]}>
+                {WORKER_HISTORY_DATA.map((history, index) => {
+                  return <HistoryCard key={index} {...history} />;
                 })}
               </ul>
             </div>

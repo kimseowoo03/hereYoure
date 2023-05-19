@@ -3,9 +3,27 @@
   border: 1px solid #C8C8C8;
   border-radius: 5px;
   margin-top: 10px;
+  label{
+    font-weight: 600;
+  }
+  & > p{
+    color: #5353F7;
+  }
 }
 
 .radio{
   float: right;
   accent-color: #5353F7;;
+}
+
+@media screen and (max-width: 570px){
+  .allowance{
+    padding: 20px 30px;
+  }
+}
+
+@media screen and (max-width: 425px){
+  .allowance{
+    padding: 20px 15px;
+  }
 }

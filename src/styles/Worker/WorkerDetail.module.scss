@@ -4,6 +4,7 @@ $primary-color: #5353F7;
 .layout{
   padding-top: 50px;
   background-color: #F2F4F9;
+  min-height: 1100px;
 }
 
 .content{
@@ -34,12 +35,132 @@ $primary-color: #5353F7;
       background-color: white;
       width: 74px;
       height: 30px;
-      border: 1px solid #5353F9;
+      border: 1px solid $primary-color;
       border-radius: 5px;
-      color: #5353F9;
+      color: $primary-color;
     }
     .user-edit-button:hover{
-      background-color: #5353F9;
+      background-color: $primary-color;
       color: white;
     }
+}
+
+.work-info{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  h2{
+    margin: 0;
+  }
+}
+
+.work-content{
+  background: #FFFFFF;
+  border-radius: 15px;
+  padding: 24px 16px;
+  .work-header{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    p{
+      display: inline;
+    }
+    .work-delete-button{
+      padding: 8px 12px;
+      background-color: white;
+      border: 1px solid #727272;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .work-delete-button:hover{
+      border: 1px solid $primary-color;
+      color: $primary-color;
+    }
+    .work-register-button{
+      padding: 8px 12px;
+      color: white;
+      background: #353539;
+      border: 1px solid #353539;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  }
+
+  .work-list-info{
+    display: grid;
+    grid-template-columns: 1fr 1.8fr 0.6fr 0.4fr;
+    padding: 0 80px;
+    align-items: center;
+
+    color: #C8C8C8;;
+    background: #353539;
+    border: 1px solid #353539;
+    border-radius: 10px 10px 0px 0px;
+  }
+
+  .work-list-contnet{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    ;
+  }
+}
+
+@media screen and (max-width: 768px){
+  
+  .work-content{
+    .work-list-info{
+      padding: 0 70px;
+      grid-template-columns: 1fr 1.8fr 0.6fr 0.4fr;
+    }
+  
+    .work-list-contnet{
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      height: 400px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      ;
+    }
+  }
+}
+
+@media screen and (max-width: 570px){
+  .work-content{
+  background: none;
+  padding: 0;
+  .work-list-info{
+    display: none;
+  }
+  .work-list-contnet{
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    ;
+  }
+  }
+}
+
+@media screen and (max-width: 425px){
+  .breadcrum{
+    p{
+      font-size: 0.75rem;
+    }
+  }
+  .worker-info{
+    h1{
+      font-size: 1.75rem;
+    }
+  }
 }

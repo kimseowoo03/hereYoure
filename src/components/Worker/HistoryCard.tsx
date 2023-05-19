@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import style from "../../styles/Worker/HistoryCard.module.scss"
 import { IWORKER_HISTORY } from "./WorkerDetail";
+import {ReactComponent as CircleIcon} from "../../assets/circle.svg";
+import {ReactComponent as UnIcon} from "../../assets/Union.svg";
 
 const HistoryCard = ({date, startTime, endTime, wage, cover}:IWORKER_HISTORY) => {
   const formattedDate = useMemo(() => {
@@ -22,7 +24,7 @@ const HistoryCard = ({date, startTime, endTime, wage, cover}:IWORKER_HISTORY) =>
         {startTime} - {endTime} (4시간 30분)
       </p>
       <p>{wage}</p>
-      <p>{cover}</p>
+      <p>{cover === 0 ? <UnIcon /> : <CircleIcon />}</p>
       <button className={style["work-edit-button"]}>수정</button>
     </li>
   );
