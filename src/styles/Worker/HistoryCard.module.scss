@@ -1,0 +1,26 @@
+$primary-color: #5353F7;
+
+.li{
+  padding: 12px 30px;
+  border: 1px solid #C8C8C8;
+
+  display: grid;
+  grid-template-columns: 0.3fr 1fr 1.8fr 0.6fr 0.4fr auto;
+  align-items: center;
+  p{
+    margin: 0;
+  }
+
+  .work-edit-button{
+    max-width: 42px;
+    padding: 6px 8px;
+    background-color: white;
+    border: 1px solid #727272;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .work-edit-button:hover{
+    border: 1px solid $primary-color;
+    color: $primary-color;
+  }
+}
