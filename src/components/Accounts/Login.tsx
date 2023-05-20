@@ -20,7 +20,7 @@ interface LoginResponse {
 
 const Login = () => {
   const navigate = useNavigate();
-  
+
   const email = useInput("");
   const password = useInput("");
 
@@ -31,22 +31,25 @@ const Login = () => {
     password.reset();
   };
 
-  const saveTokensToLocalStorage = (refreshToken: string, accessToken: string) => {
+  const saveTokensToLocalStorage = (
+    refreshToken: string,
+    accessToken: string
+  ) => {
     localStorage.setItem("refreshToken", refreshToken);
-    localStorage.setItem("accessToken", accessToken)
+    localStorage.setItem("accessToken", accessToken);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const passwordValue = password.value.toString();
 
-    const encryptedPassword = CryptoJS.SHA256( passwordValue).toString();
+    const encryptedPassword = CryptoJS.SHA256(passwordValue).toString();
     try {
       const res: LoginResponse = await api.post("/auth/login", {
         email: email.value,
         password: encryptedPassword,
       });
-      
+
       if (res.data.result) {
         setErrorText(false);
         const resAccessToken = res.data.accessToken;
@@ -55,10 +58,12 @@ const Login = () => {
         // 로컬에 토큰 저장
         saveTokensToLocalStorage(resRefreshToken, resAccessToken);
         allInputValuesReset();
-        navigate("../mypage")
+        navigate("../mypage");
       }
     } catch (error) {
       const err = error as AxiosError;
+      setErrorText(true);
+      password.reset();
       if (!err.response) {
         console.warn("response가 없습니다.");
       } else {
