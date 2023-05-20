@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { AxiosError } from "axios";
@@ -9,6 +9,7 @@ import WorkerCard from "./WorkerCard";
 import useUIState from "../../store/useUIState";
 import WorkerRegisterModal from "../../modals/WorkerRegisterModal";
 import WorkroomInfoFixModal from "../../modals/WorkroomInfoFixModal";
+import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 
 export interface IWORKER_DATA {
   id: number;
@@ -22,44 +23,47 @@ export interface IWORKER_DATA {
   createAt?: string;
 }
 
-const WORKERDATA:IWORKER_DATA[] = [
-  {
-    id: 1,
-    name: "김서우",
-    age: 21,
-    gender: "여",
-    phoneNumber: "01012345611",
-  },
-  {
-    id: 2,
-    name: "김서우",
-    age: 21,
-    gender: "여",
-    phoneNumber: "01012345611",
-  },
-  {
-    id: 3,
-    name: "김서우",
-    age: 21,
-    gender: "여",
-    phoneNumber: "01012345611",
-  },
-  {
-    id: 4,
-    name: "김서우",
-    age: 21,
-    gender: "여",
-    phoneNumber: "01012345611",
-  },
-];
+interface IWorkRoomDetail_Data {
+  id: number;
+  title: string;
+  tax: number;
+  weeklyPay: number;
+  overtimePay: number;
+  nightPay: number;
+  workers: IWORKER_DATA[];
+}
 
 const WorkRoomDetail = () => {
   const { workroom } = useParams();
+  const [workroomDetailData, setWorkroomDetailData] =
+    useState<IWorkRoomDetail_Data>();
 
-  const {workerRegisterModalOpen, setWorkerRegisterModalOpen, workroomEditModalOpen, setWorkroomEditModalOpen} = useUIState()
-  
-  const {accessToken, setAccessToken} = useAccessToken()
-  useEffect(()=> {
+  const workroomName = useMemo(
+    () => workroomDetailData?.title || "...",
+    [workroomDetailData]
+  );
+  const weeklyPay = useMemo(
+    () => workroomDetailData?.weeklyPay || 0,
+    [workroomDetailData]
+  );
+  const overtimePay = useMemo(
+    () => workroomDetailData?.overtimePay || 0,
+    [workroomDetailData]
+  );
+  const nightPay = useMemo(
+    () => workroomDetailData?.nightPay || 0,
+    [workroomDetailData]
+  );
+
+  const {
+    workerRegisterModalOpen,
+    setWorkerRegisterModalOpen,
+    workroomEditModalOpen,
+    setWorkroomEditModalOpen,
+  } = useUIState();
+
+  const { accessToken, setAccessToken } = useAccessToken();
+  useEffect(() => {
     const WorkRoomDetailData = async () => {
       try {
         //access token 확인
@@ -76,8 +80,10 @@ const WorkRoomDetail = () => {
           },
         };
 
-        const res = await api.get(`/workroom/detail?id=${workroom}`, config)
-        console.log(res);
+        const res = await api.get(`/workroom/detail?id=${workroom}`, config);
+        if (res.data.result) {
+          setWorkroomDetailData(res.data.data);
+        }
       } catch (error) {
         const err = error as AxiosError;
         if (!err.response) {
@@ -89,7 +95,8 @@ const WorkRoomDetail = () => {
       }
     };
     WorkRoomDetailData();
-  })
+  }, [accessToken, setAccessToken, workroom]);
+
   return (
     <Fragment>
       {workerRegisterModalOpen && <WorkerRegisterModal />}
@@ -97,18 +104,24 @@ const WorkRoomDetail = () => {
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
-            <p>근무방 목록 {">"} 인터라켓PC</p>
+            <p>
+              근무방 목록 {">"} {workroomName}
+            </p>
           </div>
           <div className={style["workroom-info-contnent"]}>
             <div className={style["include-box"]}>
-              <div>주휴수당</div>
-              {/* {props.nightInclude && <div>주휴수당</div>}
-          {props.overtimeInclude && <div>연휴수당</div>}
-          {props.weeklyInclude && <div>야근수당</div>} */}
+              {weeklyPay === 1 && <div>주휴수당</div>}
+              {overtimePay === 1 && <div>연장수당</div>}
+              {nightPay === 1 && <div>야간수당</div>}
             </div>
             <div className={style["workroom-info"]}>
-              <h1>인터라켓PC</h1>
-              <button className={style["user-edit-button"]} onClick={setWorkroomEditModalOpen}>정보 수정</button>
+              <h1>{workroomName}</h1>
+              <button
+                className={style["user-edit-button"]}
+                onClick={setWorkroomEditModalOpen}
+              >
+                정보 수정
+              </button>
             </div>
           </div>
           <div className={style["worker-list"]}>
@@ -127,18 +140,21 @@ const WorkRoomDetail = () => {
             </div>
             <div className={style.list}>
               <ul>
-                {WORKERDATA.map((worker) => {
-                  return (
-                    <WorkerCard
-                      key={worker.id}
-                      name={worker.name}
-                      id={worker.id}
-                      age={worker.age}
-                      gender={worker.gender}
-                      phoneNumber={worker.phoneNumber}
-                    />
-                  );
-                })}
+                {workroomDetailData &&
+                  (workroomDetailData.workers.length === 0 ? (
+                    <EmptyDataContainer message="등록된 근무자가 없습니다."/>
+                  ) : (
+                    workroomDetailData.workers.map((worker) => (
+                      <WorkerCard
+                        key={worker.id}
+                        name={worker.name}
+                        id={worker.id}
+                        age={worker.age}
+                        gender={worker.gender}
+                        phoneNumber={worker.phoneNumber}
+                      />
+                    ))
+                  ))}
               </ul>
             </div>
           </div>
