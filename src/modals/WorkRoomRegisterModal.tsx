@@ -74,7 +74,8 @@ const WorkRoomRegisterModal = () => {
     }
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const regex = /\d+\.\d+/g;
     const taxSelectedValueNumber = Number(
       taxSelectedValue.match(regex)?.toString()
@@ -104,6 +105,8 @@ const WorkRoomRegisterModal = () => {
     try {
       const res = await api.post("/workroom", data, config);
       console.log(res, "성공");
+
+      window.location.reload();
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {

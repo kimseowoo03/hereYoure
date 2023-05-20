@@ -1,3 +1,6 @@
+import { AxiosError } from "axios";
+import CryptoJS from "crypto-js";
+
 import Button from "../components/Button";
 import Input from "../components/Input";
 import useInput from "../hooks/useInput";
@@ -5,15 +8,46 @@ import BaseModal from "./BaseModal";
 
 import style from "../styles/modals/UserInfoFixModal.module.scss";
 import useUIState from "../store/useUIState";
+import api from "../axiosConfig";
+import { useAccessToken } from "../store/useAccessTokenState";
 
 const UserInfoFixModal = () => {
+  const {accessToken} = useAccessToken();
+
   const { setEditModalOpen } = useUIState();
   const name = useInput("");
   const password = useInput("");
   const newPassword = useInput("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const passwordValue = password.value.toString();
+    const NewPasswordValue = newPassword.value.toString();
+
+    const encryptedPassword = CryptoJS.SHA256(passwordValue).toString();
+    const encryptedNewPassword = CryptoJS.SHA256(NewPasswordValue).toString();
+
+    const data = {
+      name: name.value,
+      password: encryptedPassword,
+      newPassword: encryptedNewPassword
+    }
+
+    const config = {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    };
+
+    try {
+      const res = await api.post("/user/changeUser",data,  config)
+      console.log(res)
+    } catch (error) {
+      const err = error as AxiosError;
+      if (!err.response) {
+        console.log("response가 없습니다.");
+      } else {
+        console.log(err);
+      }
+    }
   };
 
   return (
