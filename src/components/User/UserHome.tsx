@@ -9,6 +9,7 @@ import { AxiosError } from "axios";
 import api from "../../axiosConfig";
 
 import { useAccessToken } from "../../store/useAccessTokenState";
+import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 
 export interface IWORKROOM_DATA {
   id?: number;
@@ -95,22 +96,11 @@ const UserHome = () => {
             <div className={style["list-container"]}>
               <ul>
                 {workrooms.map((workRoom) => {
-                  return (
-                    <WorkRoomCard
-                      key={workRoom.id}
-                      id={workRoom.id}
-                      title={workRoom.title}
-                      weekly_pay={workRoom.weekly_pay}
-                      overtime_pay={workRoom.overtime_pay}
-                      night_pay={workRoom.night_pay}
-                    />
-                  );
+                  return <WorkRoomCard {...workRoom} key={workRoom.id}/>;
                 })}
               </ul>
               {workrooms.length === 0 && (
-                <p className={style["no-workroom"]}>
-                  등록된 근무방이 없습니다.
-                </p>
+                <EmptyDataContainer message="등록된 근무방이 없습니다." />
               )}
             </div>
           </div>
