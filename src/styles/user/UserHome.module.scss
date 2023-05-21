@@ -80,13 +80,20 @@
 
 @media screen and (max-width: 410px) {
   .content{
+    padding: 0;
     h1{
       font-size: 1.5rem;
     }
   }
+.user-info{
+  padding: 0 20px;
+}
   .work-room-list{
     h2{
       font-size: 1.25rem;
+    }
+    .info{
+      padding: 0 20px; 
     }
   }
   .list-container{
