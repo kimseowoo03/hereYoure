@@ -12,7 +12,6 @@ import { useState } from "react";
 import api from "../axiosConfig";
 import { useAccessToken } from "../store/useAccessTokenState";
 
-
 const WorkerRegisterModal = () => {
   const { workroom } = useParams();
   const { setWorkerRegisterModalOpen } = useUIState();
@@ -172,6 +171,11 @@ const WorkerRegisterModal = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       };
 
+      const res = await api.post("/worker", data, config);
+
+      if (res.data.result) {
+        window.location.reload();
+      }
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {
