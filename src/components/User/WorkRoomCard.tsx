@@ -6,24 +6,24 @@ import { ReactComponent as NextIcon } from "../../assets/next-icon.svg";
 
 const MAX_NAME_LENGTH = 15;
 
-const WorkRoomCard = (props: IWORKROOM_DATA) => {
+const WorkRoomCard = ({title:workroomName, weekly_pay, overtime_pay, night_pay, id }: IWORKROOM_DATA) => {
   const title = useMemo(() => {
-    if (props.title.length > MAX_NAME_LENGTH) {
-      return props.title.substring(0, MAX_NAME_LENGTH) + "...";
+    if (workroomName.length > MAX_NAME_LENGTH) {
+      return workroomName.substring(0, MAX_NAME_LENGTH) + "...";
     }
-    return props.title;
-  }, [props.title]);
+    return workroomName;
+  }, [workroomName]);
 
   return (
     <li className={style.content}>
       <div className={style["include-box"]}>
-        {props.night_pay !== 0 && <div>주휴수당</div>}
-        {props.overtime_pay !== 0 && <div>연휴수당</div>}
-        {props.night_pay !== 0 && <div>야근수당</div>}
+        {weekly_pay !== 0 && <div>주휴수당</div>}
+        {overtime_pay !== 0 && <div>연장수당</div>}
+        {night_pay !== 0 && <div>야근수당</div>}
       </div>
       <p>{title}</p>
       <div className={style.button}>
-        <Link to={`/mypage/${props.id}`}>
+        <Link to={`/mypage/${id}`}>
           <NextIcon />
         </Link>
       </div>
