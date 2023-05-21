@@ -21,9 +21,17 @@ export interface IWORKROOM_DATA {
   [key: string]: string | number | undefined;
 }
 
+export interface IUserInfo {
+  email: string;
+  id?: number;
+  name: string;
+}
+
 const UserHome = () => {
   const { editModalOpen, setEditModalOpen } = useUIState();
   const { registerModalOpen, setRegisterModalOpen } = useUIState();
+
+  const [userInfo, setUserInfo] = useState<IUserInfo>();
   const [workrooms, setWorkrooms] = useState<IWORKROOM_DATA[]>([]);
 
   const { accessToken, setAccessToken } = useAccessToken();
@@ -46,7 +54,7 @@ const UserHome = () => {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-          console.log(res.data.data.workrooms)
+          setUserInfo(res.data.data.user);
           setWorkrooms(res.data.data.workrooms);
         }
       } catch (error) {
@@ -63,13 +71,13 @@ const UserHome = () => {
 
   return (
     <Fragment>
-      {editModalOpen && <UserInfoFixModal />}
+      {editModalOpen && userInfo && <UserInfoFixModal {...userInfo} />}
       {registerModalOpen && <WorkRoomRegisterModal />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style["user-info"]}>
             <h1>
-              김서우님, 반가워요!
+              {userInfo ? `${userInfo.name}님, 반가워요!` : "로딩 중..."}
               <img src="/images/handIcon.png" alt="handIcon" />
             </h1>
             <button
