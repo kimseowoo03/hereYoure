@@ -106,6 +106,7 @@ const WorkRoomRegisterModal = () => {
       const res = await api.post("/workroom", data, config);
       console.log(res, "성공");
 
+      setRegisterModalOpen();
       window.location.reload();
     } catch (error) {
       const err = error as AxiosError;

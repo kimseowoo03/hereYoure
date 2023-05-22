@@ -164,6 +164,7 @@ const WorkroomInfoFixModal = () => {
       //근무방 수정 API 작업
       const res = await api.put("/workroom", changedData, config);
       if (res.data.result) {
+        setWorkroomEditModalOpen();
         window.location.reload();
       }
     } catch (error) {

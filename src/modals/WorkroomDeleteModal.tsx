@@ -24,6 +24,7 @@ const WorkroomDeleteModal = ({ name, id }: IWorkroomDeleteProps) => {
       const res = await api.delete(`/workroom/${id}`, config);
       if (res.data.result) {
         navigate('/mypage');
+        setWorkroomDeleteModalOpen();
       }
     } catch (error) {
       const err = error as AxiosError;

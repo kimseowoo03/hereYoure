@@ -68,6 +68,7 @@ const UserInfoFixModal = ({ email: userEmail, name: userName }: IUserInfo) => {
 
       const res = await api.post("/user/changeUser", data, config);
       if (res.data.result) {
+        setEditModalOpen();
         window.location.reload();
       }
       setErrorText(false);
