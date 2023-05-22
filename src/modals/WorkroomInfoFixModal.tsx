@@ -39,7 +39,13 @@ const WorkroomInfoFixModal = () => {
         const res = await api.get(`/workroom/detail?id=${workroom}`, config);
         setWorkroomData(res.data.data);
       } catch (error) {
-        console.log(error);
+        const err = error as AxiosError;
+        if (!err.response) {
+          console.log("response가 없습니다.");
+        } else {
+          console.log(err);
+          console.warn(`error: ${err.message}`);
+        }
       }
     };
     fetchWorkroomData();
@@ -48,13 +54,13 @@ const WorkroomInfoFixModal = () => {
   useEffect(() => {
     if (workroomData) {
       switch (workroomData.tax) {
-        case 3:
+        case 3.3:
           setTaxSelectedValue("개인사업자 3.3%");
           break;
-        case 9:
+        case 9.4:
           setTaxSelectedValue("4대보험 9.4%");
           break;
-        case 0:
+        case 0.0:
           setTaxSelectedValue("적용안함 0.0%");
           break;
         default:
@@ -128,7 +134,7 @@ const WorkroomInfoFixModal = () => {
 
     //이전 값과 비교해 달라진 것만 changedData 넣기
     const data: IWORKROOM_DATA = {
-      id: workroom !== undefined ? parseInt(workroom) : undefined,
+      id: workroom !== undefined ? Number(workroom) : undefined,
       title: String(WorkRoomName.value),
       password: encryptedPassword,
       tax: taxSelectedValueNumber,
@@ -137,10 +143,12 @@ const WorkroomInfoFixModal = () => {
       nightPay: nightInclude ? 1 : 0,
     };
 
-    const changedData: Partial<IWORKROOM_DATA> = {};
+    const changedData: Partial<IWORKROOM_DATA> = {
+      id: workroom !== undefined ? Number(workroom) : undefined,
+    };
 
     for (const key in workroomData) {
-      if (key === 'workers') {
+      if (key === "workers") {
         continue;
       }
       if (workroomData.hasOwnProperty(key) && workroomData[key] !== data[key]) {
@@ -154,8 +162,10 @@ const WorkroomInfoFixModal = () => {
 
     try {
       //근무방 수정 API 작업
-      const res = await api.patch("/workroom", changedData, config);
-      console.log(res)
+      const res = await api.put("/workroom", changedData, config);
+      if (res.data.result) {
+        window.location.reload();
+      }
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {
