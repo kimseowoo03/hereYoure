@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import api from "../axiosConfig";
 import { AxiosError } from "axios";
 import useUIState from "../store/useUIState";
@@ -10,6 +11,7 @@ interface IWorkroomDeleteProps {
 }
 
 const WorkroomDeleteModal = ({ name, id }: IWorkroomDeleteProps) => {
+  const navigate = useNavigate();
   const { setWorkroomDeleteModalOpen } = useUIState();
   const { accessToken } = useAccessToken();
 
@@ -19,8 +21,10 @@ const WorkroomDeleteModal = ({ name, id }: IWorkroomDeleteProps) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       };
 
-      const res = await api.delete(`/workroom?id=${id}`, config);
-      console.log(res);
+      const res = await api.delete(`/workroom/${id}`, config);
+      if (res.data.result) {
+        navigate('/mypage');
+      }
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {
