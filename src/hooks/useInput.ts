@@ -9,6 +9,7 @@ export interface UseInputReturn {
   value: string | number;
   inputVaild: boolean;
   errorText: string;
+  setValue: (value: string) => void;
   onChange: (event: InputChangeEvent) => void;
   onBlurTouch: (touched: boolean) => void;
   checkVaild: (checked: boolean) => void;
@@ -40,7 +41,7 @@ const useInput = (initialValue: initialValue): UseInputReturn => {
 
   const reset = useCallback(() => setValue(initialValue), [initialValue]);
 
-  return {inputTouched, errorText, inputVaild, value, checkVaild, onChange, onBlurTouch, setErrorMessage, reset };
+  return {inputTouched, errorText, inputVaild, value, setValue, checkVaild, onChange, onBlurTouch, setErrorMessage, reset };
 };
 
 export default useInput;
