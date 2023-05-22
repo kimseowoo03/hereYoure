@@ -16,9 +16,9 @@ export interface IWORKROOM_DATA {
   title: string;
   tax?: number;
   password?: string;
-  weekly_pay: number;
-  overtime_pay: number;
-  night_pay: number;
+  weeklyPay: number;
+  overtimePay: number;
+  nightPay: number;
   [key: string]: string | number | undefined;
 }
 

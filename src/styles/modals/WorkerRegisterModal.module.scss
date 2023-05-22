@@ -11,7 +11,13 @@
      overflow-x:hidden; 
      overflow-y:auto; 
   }
-  .form-content div:nth-of-type(n+3):nth-of-type(-n+5) {
+  .alert{
+    color: #D62929;
+    font-size: 12px;
+    margin-top: 0px ;
+    margin-bottom: 10px;
+  }
+  .form-content div:nth-of-type(n+3):nth-of-type(-n+6) {
     margin-bottom: 12px;
   }
 }

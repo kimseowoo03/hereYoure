@@ -9,33 +9,19 @@ import WorkroomModal from "./WorkroomModal";
 import { useParams } from "react-router-dom";
 import { IWORKROOM_DATA } from "../components/User/UserHome";
 
-const WORKROOMDETAILDATA: IWORKROOM_DATA = {
-  id: 10,
-  title: "근무방1",
-  tax: 3.3,
-  weekly_pay: 0,
-  overtime_pay: 1,
-  night_pay: 1,
-};
-
 const WorkroomInfoFixModal = () => {
   const { workroom } = useParams();
+  const [workroomData, setWorkroomData] = useState<IWORKROOM_DATA>();
 
   const [taxSelect, setTaxSelect] = useState(false);
 
   const [taxSelectedValue, setTaxSelectedValue] = useState("");
 
-  const [weeklyInclude, setWeeklyInclude] = useState(
-    WORKROOMDETAILDATA.weekly_pay !== 0
-  );
-  const [overtimeInclude, setOvertimeInclude] = useState(
-    WORKROOMDETAILDATA.overtime_pay !== 0
-  );
-  const [nightInclude, setNightInclude] = useState(
-    WORKROOMDETAILDATA.night_pay !== 0
-  );
+  const [weeklyInclude, setWeeklyInclude] = useState(false);
+  const [overtimeInclude, setOvertimeInclude] = useState(false);
+  const [nightInclude, setNightInclude] = useState(false);
 
-  const WorkRoomName = useInput(WORKROOMDETAILDATA.title);
+  const WorkRoomName = useInput("");
 
   const WorkRoomPassword = useInput("");
 
@@ -44,32 +30,48 @@ const WorkroomInfoFixModal = () => {
   const { setWorkroomEditModalOpen } = useUIState();
 
   useEffect(() => {
-    switch (WORKROOMDETAILDATA.tax) {
-      case 3.3:
-        setTaxSelectedValue("개인사업자 3.3%");
-        break;
-      case 9.4:
-        setTaxSelectedValue("4대보험 9.4%");
-        break;
-      case 0.0:
-        setTaxSelectedValue("적용안함 0.0%");
-        break;
-      default:
-        break;
-    }
-    const config = {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    };
     const fetchWorkroomData = async () => {
       try {
-        //근무방 상세데이터 조회
-        // const res = await api.get(`/workroom/detail?id=${workroom}`, config)
+        const config = {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        };
+
+        const res = await api.get(`/workroom/detail?id=${workroom}`, config);
+        setWorkroomData(res.data.data);
       } catch (error) {
-        console.log(error);
+        const err = error as AxiosError;
+        if (!err.response) {
+          console.log("response가 없습니다.");
+        } else {
+          console.log(err);
+          console.warn(`error: ${err.message}`);
+        }
       }
     };
     fetchWorkroomData();
-  }, []);
+  }, [accessToken, workroom]);
+
+  useEffect(() => {
+    if (workroomData) {
+      switch (workroomData.tax) {
+        case 3.3:
+          setTaxSelectedValue("개인사업자 3.3%");
+          break;
+        case 9.4:
+          setTaxSelectedValue("4대보험 9.4%");
+          break;
+        case 0.0:
+          setTaxSelectedValue("적용안함 0.0%");
+          break;
+        default:
+          break;
+      }
+      WorkRoomName.setValue(workroomData.title);
+      setWeeklyInclude(workroomData.weeklyPay !== 0);
+      setOvertimeInclude(workroomData.overtimePay !== 0);
+      setNightInclude(workroomData.nightPay !== 0);
+    }
+  }, [workroomData]);
 
   const isFormValid = true;
 
@@ -119,7 +121,8 @@ const WorkroomInfoFixModal = () => {
     }
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const regex = /\d+\.\d+/g;
     const taxSelectedValueNumber = Number(
       taxSelectedValue.match(regex)?.toString()
@@ -131,33 +134,39 @@ const WorkroomInfoFixModal = () => {
 
     //이전 값과 비교해 달라진 것만 changedData 넣기
     const data: IWORKROOM_DATA = {
-      id: workroom !== undefined ? parseInt(workroom) : undefined,
+      id: workroom !== undefined ? Number(workroom) : undefined,
       title: String(WorkRoomName.value),
       password: encryptedPassword,
       tax: taxSelectedValueNumber,
-      weekly_pay: weeklyInclude ? 1 : 0,
-      overtime_pay: overtimeInclude ? 1 : 0,
-      night_pay: nightInclude ? 1 : 0,
+      weeklyPay: weeklyInclude ? 1 : 0,
+      overtimePay: overtimeInclude ? 1 : 0,
+      nightPay: nightInclude ? 1 : 0,
     };
 
-    const changedData: Partial<IWORKROOM_DATA> = {};
+    const changedData: Partial<IWORKROOM_DATA> = {
+      id: workroom !== undefined ? Number(workroom) : undefined,
+    };
 
-    for (const key in WORKROOMDETAILDATA) {
-      if (
-        WORKROOMDETAILDATA.hasOwnProperty(key) &&
-        WORKROOMDETAILDATA[key] !== data[key]
-      ) {
+    for (const key in workroomData) {
+      if (key === "workers") {
+        continue;
+      }
+      if (workroomData.hasOwnProperty(key) && workroomData[key] !== data[key]) {
         changedData[key] = data[key];
       }
     }
 
-    console.log(changedData);
     const config = {
       headers: { Authorization: `Bearer ${accessToken}` },
     };
 
     try {
       //근무방 수정 API 작업
+      const res = await api.put("/workroom", changedData, config);
+      if (res.data.result) {
+        setWorkroomEditModalOpen();
+        window.location.reload();
+      }
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {

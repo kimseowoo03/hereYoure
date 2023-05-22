@@ -10,6 +10,7 @@ import useUIState from "../../store/useUIState";
 import WorkerRegisterModal from "../../modals/WorkerRegisterModal";
 import WorkroomInfoFixModal from "../../modals/WorkroomInfoFixModal";
 import { EmptyDataContainer } from "../UI/EmptyDataContainer";
+import WorkroomDeleteModal from "../../modals/WorkroomDeleteModal";
 
 export interface IWORKER_DATA {
   id: number;
@@ -60,6 +61,8 @@ const WorkRoomDetail = () => {
     setWorkerRegisterModalOpen,
     workroomEditModalOpen,
     setWorkroomEditModalOpen,
+    workroomDeleteModalOpen,
+    setWorkroomDeleteModalOpen,
   } = useUIState();
 
   const { accessToken, setAccessToken } = useAccessToken();
@@ -101,6 +104,7 @@ const WorkRoomDetail = () => {
     <Fragment>
       {workerRegisterModalOpen && <WorkerRegisterModal />}
       {workroomEditModalOpen && <WorkroomInfoFixModal />}
+      {workroomDeleteModalOpen && <WorkroomDeleteModal name={workroomName} id={workroom}/>}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
@@ -159,7 +163,7 @@ const WorkRoomDetail = () => {
             </div>
           </div>
           <div className={style["workroom-del-btn"]}>
-            <button>근무방 삭제</button>
+            <button onClick={setWorkroomDeleteModalOpen}>근무방 삭제</button>
           </div>
         </div>
       </div>
