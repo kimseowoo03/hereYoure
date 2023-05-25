@@ -7,6 +7,7 @@ import Input from "../components/Input";
 import { UseInputReturn } from "../hooks/useInput";
 
 interface IWorkerModalProps {
+  modalTitle: string;
   name: UseInputReturn;
   age: UseInputReturn;
   gender: boolean;
@@ -28,6 +29,7 @@ interface IWorkerModalProps {
 }
 
 const WorkerModal = ({
+  modalTitle,
   name,
   age,
   gender,
@@ -50,7 +52,7 @@ const WorkerModal = ({
   return (
     <BaseModal>
       <div className={style.content}>
-        <h2>근무자 등록</h2>
+        <h2>{modalTitle}</h2>
         <form className={style.form} onSubmit={handleSubmit}>
           <div className={style["form-content"]}>
             <Input

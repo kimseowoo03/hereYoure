@@ -8,9 +8,11 @@ type UIState = {
   workroomEditModalOpen: boolean;
   workroomDeleteModalOpen: boolean;
   workerRegisterModalOpen: boolean;
+  workerInfoFixModalOpen: boolean;
   setWorkroomEditModalOpen: () => void;
   setWorkerRegisterModalOpen: () => void;
   setWorkroomDeleteModalOpen: () => void;
+  setWorkerInfoFixModalOpen: () => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -21,9 +23,11 @@ const useUIState = create<UIState>((set) => ({
   workroomEditModalOpen: false,
   workroomDeleteModalOpen: false,
   workerRegisterModalOpen: false,
+  workerInfoFixModalOpen: false,
   setWorkroomEditModalOpen: () => set((state) => ({ workroomEditModalOpen: !state.workroomEditModalOpen })),
   setWorkerRegisterModalOpen: () => set((state) => ({workerRegisterModalOpen: !state.workerRegisterModalOpen})),
   setWorkroomDeleteModalOpen:  () => set((state) => ({workroomDeleteModalOpen: !state.workroomDeleteModalOpen})),
+  setWorkerInfoFixModalOpen: () => set((state) => ({workerInfoFixModalOpen: !state.workerInfoFixModalOpen})),
 }));
 
 export default useUIState;

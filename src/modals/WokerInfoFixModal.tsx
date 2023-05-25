@@ -8,9 +8,9 @@ import api from "../axiosConfig";
 import { useAccessToken } from "../store/useAccessTokenState";
 import WorkerModal from "./WorkerModal";
 
-const WorkerRegisterModal = () => {
+const WorkerInfoFixModal = () => {
   const { workroom } = useParams();
-  const { setWorkerRegisterModalOpen } = useUIState();
+  const { setWorkerInfoFixModalOpen } = useUIState();
   const { accessToken } = useAccessToken();
 
   const name = useInput("");
@@ -167,12 +167,12 @@ const WorkerRegisterModal = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       };
 
-      const res = await api.post("/worker", data, config);
+      //API 수정 연동
 
-      if (res.data.result) {
-        setWorkerRegisterModalOpen()
-        window.location.reload();
-      }
+      // if (res.data.result) {
+        // setWorkerInfoFixModalOpen()
+      //   window.location.reload();
+      // }
     } catch (error) {
       const err = error as AxiosError;
       if (!err.response) {
@@ -184,7 +184,7 @@ const WorkerRegisterModal = () => {
   };
 
   const workerModalProps = {
-    modalTitle: "근무자 등록",
+    modalTitle: "근무자 수정",
     name,
     age,
     gender,
@@ -193,7 +193,7 @@ const WorkerRegisterModal = () => {
     bankInfo,
     wage,
     isFormValid,
-    submitButtonName: "등록하기",
+    submitButtonName: "변경하기",
     handlerNameBlur,
     handlerAgeBlur,
     handlerPasswordBlur,
@@ -202,10 +202,10 @@ const WorkerRegisterModal = () => {
     handlerWageBlur,
     handleGenderClick,
     handleSubmit,
-    cancelModalState: setWorkerRegisterModalOpen,
+    cancelModalState: setWorkerInfoFixModalOpen,
   };
 
   return <WorkerModal {...workerModalProps} />;
 };
 
-export default WorkerRegisterModal;
+export default WorkerInfoFixModal;
