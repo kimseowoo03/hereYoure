@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import style from "../../styles/Worker/WorkerDetail.module.scss";
 import HistoryCard from "./HistoryCard";
 import WorkerInfoCards from "./WorkerInfoCards";
@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import DateDropdown from "./DateDropdown";
 import useUIState from "../../store/useUIState";
 import WorkerInfoFixModal from "../../modals/WokerInfoFixModal";
+import { IWORKER_DATA } from "../WrokRoom/WorkRoomDetail";
+import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 
 export interface IWORKER_HISTORY {
   date: string;
@@ -88,6 +90,8 @@ const WORKER_HISTORY_DATA: IWORKER_HISTORY[] = [
 const WorkerDetail = () => {
   const { workerid } = useParams();
   const { accessToken, setAccessToken } = useAccessToken();
+  const [userInfoData, setUserInfoData] = useState<IWORKER_DATA>({} as IWORKER_DATA);
+  const [userHistoryData, setUserHistoryData] = useState<IWORKER_HISTORY[]>();
 
   const { workerInfoFixModalOpen, setWorkerInfoFixModalOpen } = useUIState();
 
@@ -108,31 +112,42 @@ const WorkerDetail = () => {
           },
         };
         const res = await api.get(`/worker?id=${workerid}&month=${"5"}`, config);
-        console.log(res);
+        if(res.data.result){
+          const { worker, histories } = res.data.data;
+          console.log(worker)
+          setUserInfoData(worker)
+          setUserHistoryData(histories)
+        }
       } catch (error) {}
     };
     WokerDetailData();
-  }, []);
+  }, [accessToken, setAccessToken, workerid]);
 
   return (
     <Fragment>
-      {workerInfoFixModalOpen && <WorkerInfoFixModal />}
+      {workerInfoFixModalOpen && <WorkerInfoFixModal {...userInfoData} />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
             <p>
-              근무방 목록 {">"} 인터라켓PC{">"}근무정보
+              근무방 목록 {">"} 인터라켓PC{">"} 근무정보
             </p>
           </div>
           <article>
             <section>
               <div className={style["worker-info"]}>
                 <h1>
-                  <span>김서우</span>님 근무정보
+                  <span>{userInfoData ? userInfoData.name : "..."}</span>님
+                  근무정보
                 </h1>
-                <button className={style["user-edit-button"]} onClick={setWorkerInfoFixModalOpen}>정보 수정</button>
+                <button
+                  className={style["user-edit-button"]}
+                  onClick={setWorkerInfoFixModalOpen}
+                >
+                  정보 수정
+                </button>
               </div>
-              <WorkerInfoCards />
+              <WorkerInfoCards {...userInfoData} />
             </section>
             <section>
               <div className={style["work-info"]}>
@@ -158,9 +173,14 @@ const WorkerDetail = () => {
                   <p>대리출근</p>
                 </div>
                 <ul className={style["work-list-contnet"]}>
-                  {WORKER_HISTORY_DATA.map((history, index) => {
-                    return <HistoryCard key={index} {...history} />;
-                  })}
+                  {userHistoryData &&
+                    (userHistoryData.length === 0 ? (
+                      <EmptyDataContainer message="등록된 근무정보가 없습니다." />
+                    ) : (
+                      userHistoryData.map((history, index) => {
+                        return <HistoryCard key={index} {...history} />;
+                      })
+                    ))}
                 </ul>
               </div>
             </section>

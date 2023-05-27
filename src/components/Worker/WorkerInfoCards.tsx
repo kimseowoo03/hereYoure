@@ -1,15 +1,20 @@
+import { useState, useMemo } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import style from "../../styles/Worker/WorkerInfoCards.module.scss";
 import { ReactComponent as CopyIcon } from "../../assets/copy.svg";
 import { ReactComponent as DropdownIcon } from "../../assets/dropdown.svg";
 import { ReactComponent as DropupIcon } from "../../assets/dropup.svg";
-import { useState } from "react";
 import AllowanceItem from "./AllowanceItem";
 import useInput from "../../hooks/useInput";
 import OverTimePayItem from "./OverTimePayItem";
 import NightTimePayItem from "./NightTimePayItem";
+import { IWORKER_DATA } from "../WrokRoom/WorkRoomDetail";
 
-const WorkerInfoCards = () => {
+
+const WorkerInfoCards: React.FC<IWORKER_DATA> = ({id, accountNumber, age, bank, gender, name, phoneNumber, wage}) => {
+  const formattedPhoneNumber = useMemo(() => phoneNumber ? phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"): "", [phoneNumber]);
+  const formattedGender = useMemo(() => (gender === "female" ? "여" : "남"), [gender]);
+
   const [isSalaryToggle, setIsSalaryToggle] = useState(false);
   const [weeklyInclude, setWeeklyInclude] = useState(false);
   const [overtimeInclude, setOvertimeInclude] = useState(false);
@@ -66,16 +71,16 @@ const WorkerInfoCards = () => {
       </div>
       <div className={style["worker-bank-info-card"]}>
         <div className={style["worker-info"]}>
-          <span>김서우</span>
-          <span>여</span>
-          <span>21</span>
-          <p>010-1111-1111</p>
-          <p>카카오뱅써 012938190209</p>
+          <span>{name}</span>
+          <span>{formattedGender}</span>
+          <span>{age}</span>
+          <p>{formattedPhoneNumber}</p>
+          <p>{bank} {accountNumber}</p>
         </div>
         <div className={style["worker-bank-copy"]}>
           <CopyToClipboard
             text={""}
-            onCopy={() => alert("김서우 / 카카오뱅크 2039129491202 / 120,000")}
+            onCopy={() => alert(`${name} / ${bank} ${accountNumber} / 120,000`)}
           >
             <button>
               <CopyIcon />
