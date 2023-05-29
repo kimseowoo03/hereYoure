@@ -8,7 +8,7 @@ import { useAccessToken } from "../store/useAccessTokenState";
 import WorkerModal from "./WorkerModal";
 import { IWORKER_DATA } from "../components/WrokRoom/WorkRoomDetail";
 
-const WorkerInfoFixModal: React.FC<IWORKER_DATA> = ({
+const WorkerInfoFixModal = ({
   id,
   accountNumber: currentAccountNumber,
   name: currentName,
@@ -17,7 +17,7 @@ const WorkerInfoFixModal: React.FC<IWORKER_DATA> = ({
   wage: currentWage,
   bank: currentBank,
   phoneNumber: currentPhoneNumber,
-}) => {
+}:IWORKER_DATA) => {
   const formattedGender = useMemo(
     () => (currentGender === "female" ? true : false),
     [currentGender]

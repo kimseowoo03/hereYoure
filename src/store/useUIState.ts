@@ -13,6 +13,8 @@ type UIState = {
   setWorkerRegisterModalOpen: () => void;
   setWorkroomDeleteModalOpen: () => void;
   setWorkerInfoFixModalOpen: () => void;
+  historyRegisterModalOpen: boolean;
+  setHistoryRegisterModalOpen: () => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -28,6 +30,8 @@ const useUIState = create<UIState>((set) => ({
   setWorkerRegisterModalOpen: () => set((state) => ({workerRegisterModalOpen: !state.workerRegisterModalOpen})),
   setWorkroomDeleteModalOpen:  () => set((state) => ({workroomDeleteModalOpen: !state.workroomDeleteModalOpen})),
   setWorkerInfoFixModalOpen: () => set((state) => ({workerInfoFixModalOpen: !state.workerInfoFixModalOpen})),
+  historyRegisterModalOpen: false,
+  setHistoryRegisterModalOpen: () => set((state) => ({ historyRegisterModalOpen: !state.historyRegisterModalOpen })),
 }));
 
 export default useUIState;
