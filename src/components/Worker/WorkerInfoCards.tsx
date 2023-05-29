@@ -100,16 +100,20 @@ const WorkerInfoCards: React.FC<IWORKER_DATA> = ({id, accountNumber, age, bank, 
         {isSalaryToggle && (
           <div className={style["allowance-content"]}>
             <AllowanceItem
-              label={"주휴수당"}
-              name={"weekly-allowance"}
+              label="주휴수당"
+              text="포함"
+              notText="미포함"
+              name="weekly-allowance"
               handleRadioChange={handleRadioChange}
               include={weeklyInclude}
             >
               <p>(1주일 총 일한시간 / 40시간) x 8 x 시급</p>
             </AllowanceItem>
             <AllowanceItem
-              label={"연장수당"}
-              name={"overtime-pay"}
+              label="연장수당"
+              text="포함"
+              notText="미포함"
+              name="overtime-pay"
               handleRadioChange={handleRadioChange}
               include={overtimeInclude}
             >
@@ -125,8 +129,10 @@ const WorkerInfoCards: React.FC<IWORKER_DATA> = ({id, accountNumber, age, bank, 
               />
             </AllowanceItem>
             <AllowanceItem
-              label={"야간수당"}
-              name={"night-allowance"}
+              label="야간수당"
+              text="포함"
+              notText="미포함"
+              name="night-allowance"
               handleRadioChange={handleRadioChange}
               include={nightInclude}
             >
