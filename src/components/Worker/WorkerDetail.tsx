@@ -12,23 +12,35 @@ import WorkerInfoFixModal from "../../modals/WokerInfoFixModal";
 import { IWORKER_DATA } from "../WrokRoom/WorkRoomDetail";
 import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 import HistoryRegisterModal from "../../modals/HistoryRegisterModal";
+import HistoryInfoFixModal from "../../modals/HistoryInfoFixModal";
 
 export interface IWORKER_HISTORY {
+  id: number;
   date: string;
   startTime: string;
   endTime: string;
   wage: string;
   cover: number;
-  workerId: number;
+  workerId?: number;
 }
 
 const WorkerDetail = () => {
   const { workerid } = useParams();
   const { accessToken, setAccessToken } = useAccessToken();
-  const [userInfoData, setUserInfoData] = useState<IWORKER_DATA>({} as IWORKER_DATA);
-  const [userHistoryData, setUserHistoryData] = useState<IWORKER_HISTORY[]>();
+  const [userInfoData, setUserInfoData] = useState<IWORKER_DATA>(
+    {} as IWORKER_DATA
+  );
+  const [userHistoryData, setUserHistoryData] = useState<IWORKER_HISTORY[]>([]);
 
-  const { workerInfoFixModalOpen, setWorkerInfoFixModalOpen, historyRegisterModalOpen, setHistoryRegisterModalOpen } = useUIState();
+  const {
+    workerInfoFixModalOpen,
+    setWorkerInfoFixModalOpen,
+    historyRegisterModalOpen,
+    setHistoryRegisterModalOpen,
+    historyInfoFixModalOpen,
+    setHistoryInfoFixModalOpen,
+    historyId
+  } = useUIState();
 
   useEffect(() => {
     const WokerDetailData = async () => {
@@ -52,7 +64,6 @@ const WorkerDetail = () => {
         );
         if (res.data.result) {
           const { worker, histories } = res.data.data;
-          console.log(worker);
           setUserInfoData(worker);
           setUserHistoryData(histories);
         }
@@ -72,8 +83,9 @@ const WorkerDetail = () => {
     <Fragment>
       {workerInfoFixModalOpen && <WorkerInfoFixModal {...userInfoData} />}
       {historyRegisterModalOpen && userInfoData.wage !== undefined && (
-        <HistoryRegisterModal wage={userInfoData.wage} id={userInfoData.id}/>
+        <HistoryRegisterModal wage={userInfoData.wage} id={userInfoData.id} />
       )}
+      {historyInfoFixModalOpen && <HistoryInfoFixModal wokerId={userInfoData.id} {...userHistoryData[historyId-1]} />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
@@ -128,8 +140,8 @@ const WorkerDetail = () => {
                     (userHistoryData.length === 0 ? (
                       <EmptyDataContainer message="등록된 근무정보가 없습니다." />
                     ) : (
-                      userHistoryData.map((history, index) => {
-                        return <HistoryCard key={index} {...history} />;
+                      userHistoryData.map((history) => {
+                        return <HistoryCard key={history.id} {...history} />;
                       })
                     ))}
                 </ul>

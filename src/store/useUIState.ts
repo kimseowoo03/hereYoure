@@ -15,6 +15,10 @@ type UIState = {
   setWorkerInfoFixModalOpen: () => void;
   historyRegisterModalOpen: boolean;
   setHistoryRegisterModalOpen: () => void;
+  historyInfoFixModalOpen: boolean;
+  historyId: number;
+  setHistoryInfoFixModalOpen: () => void;
+  setHistoryId: (id:number) => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -32,6 +36,10 @@ const useUIState = create<UIState>((set) => ({
   setWorkerInfoFixModalOpen: () => set((state) => ({workerInfoFixModalOpen: !state.workerInfoFixModalOpen})),
   historyRegisterModalOpen: false,
   setHistoryRegisterModalOpen: () => set((state) => ({ historyRegisterModalOpen: !state.historyRegisterModalOpen })),
+  historyInfoFixModalOpen: false,
+  historyId: 0,
+  setHistoryInfoFixModalOpen: () => set((state) => ({ historyInfoFixModalOpen: !state.historyInfoFixModalOpen })),
+  setHistoryId: (id) => set(() => ({ historyId: id })),
 }));
 
 export default useUIState;
