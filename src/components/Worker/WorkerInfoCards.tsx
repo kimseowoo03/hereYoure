@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, memo } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import style from "../../styles/Worker/WorkerInfoCards.module.scss";
 import { ReactComponent as CopyIcon } from "../../assets/copy.svg";
@@ -153,4 +153,4 @@ const WorkerInfoCards: React.FC<IWORKER_DATA> = ({id, accountNumber, age, bank, 
   );
 };
 
-export default WorkerInfoCards;
+export default memo(WorkerInfoCards);

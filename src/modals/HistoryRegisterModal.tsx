@@ -75,7 +75,6 @@ const HistoryRegisterModal = ({
         cover: deputyWorkInclude ? 1 : 0,
         workerId: id,
       };
-      console.log(data, "ss");
 
       const config = {
         headers: { Authorization: `Bearer ${accessToken}` },
