@@ -112,6 +112,20 @@ $primary-color: #5353F7;
   }
 }
 
+.worker-del-btn{
+  margin: 30px 0px;
+  display: inline-block;
+  button{
+    border: none;
+    color: $secondary-color;
+    text-decoration-line: underline;
+  }
+  button:hover{
+    cursor: pointer;
+    color: #1d1d1f;
+  }
+}
+
 @media screen and (max-width: 768px){
   
   .work-content{

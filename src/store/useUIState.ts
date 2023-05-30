@@ -19,6 +19,8 @@ type UIState = {
   historyId: number;
   setHistoryInfoFixModalOpen: () => void;
   setHistoryId: (id:number) => void;
+  wokerDeleteModalOpen: boolean;
+  setWokerDeleteModalOpen: () => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -40,6 +42,8 @@ const useUIState = create<UIState>((set) => ({
   historyId: 0,
   setHistoryInfoFixModalOpen: () => set((state) => ({ historyInfoFixModalOpen: !state.historyInfoFixModalOpen })),
   setHistoryId: (id) => set(() => ({ historyId: id })),
+  wokerDeleteModalOpen: false,
+  setWokerDeleteModalOpen: () => set((state) => ({ wokerDeleteModalOpen: !state.wokerDeleteModalOpen })),
 }));
 
 export default useUIState;

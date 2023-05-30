@@ -16,6 +16,7 @@ interface IWorkerModalProps {
   bankInfo: UseInputReturn;
   wage: UseInputReturn;
   submitButtonName: string;
+  isFormValid?: boolean;
   handlerNameBlur: () => void;
   handlerAgeBlur: () => void;
   handlerPasswordBlur: () => void;
@@ -37,6 +38,7 @@ const WorkerModal = ({
   bankInfo,
   wage,
   submitButtonName,
+  isFormValid,
   handlerNameBlur,
   handlerAgeBlur,
   handlerPasswordBlur,
@@ -155,6 +157,7 @@ const WorkerModal = ({
             <Button
               children={submitButtonName}
               type={"submit"}
+              disabled={!isFormValid}
             />
           </div>
         </form>

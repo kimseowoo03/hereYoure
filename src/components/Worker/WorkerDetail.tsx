@@ -13,6 +13,7 @@ import { IWORKER_DATA } from "../WrokRoom/WorkRoomDetail";
 import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 import HistoryRegisterModal from "../../modals/HistoryRegisterModal";
 import HistoryInfoFixModal from "../../modals/HistoryInfoFixModal";
+import WorkerDeleteModal from "../../modals/WorkerDeleteModal";
 
 export interface IWORKER_HISTORY {
   id: number;
@@ -38,8 +39,9 @@ const WorkerDetail = () => {
     historyRegisterModalOpen,
     setHistoryRegisterModalOpen,
     historyInfoFixModalOpen,
-    setHistoryInfoFixModalOpen,
-    historyId
+    historyId,
+    setWokerDeleteModalOpen,
+    wokerDeleteModalOpen,
   } = useUIState();
 
   useEffect(() => {
@@ -66,6 +68,7 @@ const WorkerDetail = () => {
           const { worker, histories } = res.data.data;
           setUserInfoData(worker);
           setUserHistoryData(histories);
+          console.log(histories)
         }
       } catch (error) {
         const err = error as AxiosError;
@@ -85,6 +88,7 @@ const WorkerDetail = () => {
       {historyRegisterModalOpen && userInfoData.wage !== undefined && (
         <HistoryRegisterModal wage={userInfoData.wage} id={userInfoData.id} />
       )}
+      {wokerDeleteModalOpen && <WorkerDeleteModal id={userInfoData.id} name={userInfoData.name} />}
       {historyInfoFixModalOpen && <HistoryInfoFixModal wokerId={userInfoData.id} {...userHistoryData[historyId-1]} />}
       <div className={style.layout}>
         <div className={style.content}>
@@ -112,7 +116,7 @@ const WorkerDetail = () => {
             <section>
               <div className={style["work-info"]}>
                 <h2>근무정보</h2>
-                <DateDropdown />
+                <DateDropdown workDates={userHistoryData}/>
               </div>
               <div className={style["work-content"]}>
                 <div className={style["work-header"]}>
@@ -148,6 +152,9 @@ const WorkerDetail = () => {
               </div>
             </section>
           </article>
+          <div className={style["worker-del-btn"]}>
+            <button onClick={setWokerDeleteModalOpen}>근무자 삭제</button>
+          </div>
         </div>
       </div>
     </Fragment>
