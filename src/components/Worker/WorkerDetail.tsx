@@ -48,6 +48,7 @@ const WorkerDetail = () => {
     historyDeleteModalOpen,
     setHistoryDeleteModalOpen,
     historyCheckedArray,
+    dateSelected
   } = useUIState();
 
   const historyObject = userHistoryData.find((item) => item.id === historyId);
@@ -69,7 +70,7 @@ const WorkerDetail = () => {
           },
         };
         const res = await api.get(
-          `/worker?id=${workerid}&month=${"5"}`,
+          `/worker?id=${workerid}&month=${dateSelected}`,
           config
         );
         if (res.data.result) {
@@ -87,7 +88,7 @@ const WorkerDetail = () => {
       }
     };
     WokerDetailData();
-  }, []);
+  }, [dateSelected]);
 
   return (
     <Fragment>
@@ -130,7 +131,7 @@ const WorkerDetail = () => {
             <section>
               <div className={style["work-info"]}>
                 <h2>근무정보</h2>
-                <DateDropdown workDates={userHistoryData} />
+                {<DateDropdown workDates={userHistoryData} />}
               </div>
               <div className={style["work-content"]}>
                 <div className={style["work-header"]}>

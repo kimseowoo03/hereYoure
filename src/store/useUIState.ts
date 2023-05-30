@@ -28,6 +28,8 @@ type UIState = {
   filterToCheckedArray: (id: number) => void;
   historyDeleteModalOpen: boolean;
   setHistoryDeleteModalOpen: () => void;
+  dateSelected: string;
+  setDateSelected: (date: string) => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -60,6 +62,8 @@ const useUIState = create<UIState>((set) => ({
   })),
   historyDeleteModalOpen: false,
   setHistoryDeleteModalOpen: () => set((state) => ({ historyDeleteModalOpen: !state.historyDeleteModalOpen })),
+  dateSelected: "5",
+  setDateSelected: (date: string) => set(() => ({ dateSelected: date })),
 }));
 
 export default useUIState;

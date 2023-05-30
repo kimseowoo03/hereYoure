@@ -1,36 +1,34 @@
+import { useState, memo, useEffect } from "react";
 import style from "../../styles/modals/DateDropdown.module.scss";
 import { ReactComponent as DropdownIcon } from "../../assets/dropdown.svg";
 import { ReactComponent as DropupIcon } from "../../assets/dropup.svg";
-import { useState } from "react";
-import useInput from "../../hooks/useInput";
+import { IWORKER_HISTORY } from "./WorkerDetail";
+import useUIState from "../../store/useUIState";
 
-const DateDropdown = () => {
+interface IDateDropdownProps {
+  workDates: IWORKER_HISTORY[];
+}
+
+const DateDropdown: React.FC<IDateDropdownProps> = ({ workDates }) => {
   const [isDropdownOpen, SetIsDropdownOpen] = useState(false);
-  const selectedDate = useInput("3");
-
-  const workDates = [
-    "2023-02-21",
-    "2023-02-15",
-    "2023-01-15",
-    "2023-03-15",
-    "2023-04-08",
+  const { dateSelected, setDateSelected } = useUIState();
+  const months = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
   ];
 
-  const uniqueMonths = new Set();
-
-  workDates.forEach((date) => {
-    const workDate = new Date(date);
-    const month = workDate.getMonth() + 1;
-    uniqueMonths.add(month);
-  });
-
-  const UserHistoryDate = Array.from(uniqueMonths).sort(
-    (a, b) => (b as number) - (a as number)
-  ) as number[];
-
-  const handleMonthClick = (event: React.MouseEvent<HTMLLIElement>) => {
-    const selectedMonth = event.currentTarget.innerText.toString().replace(/\D/g, "");
-    selectedDate.setValue(selectedMonth);
+  const handleMonthClick = (month: string) => {
+    setDateSelected(month);
     SetIsDropdownOpen(!isDropdownOpen);
   };
   return (
@@ -39,15 +37,15 @@ const DateDropdown = () => {
         className={style["selected-date"]}
         onClick={() => SetIsDropdownOpen(!isDropdownOpen)}
       >
-        <span>{selectedDate.value}월</span>
+        <span>{dateSelected}월</span>
         {isDropdownOpen ? <DropupIcon /> : <DropdownIcon />}
       </div>
       <div className={style["date-list"]}>
         {isDropdownOpen && (
           <ul>
-            {UserHistoryDate.map((month, index) => {
+            {months.map((month, index) => {
               return (
-                <li onClick={handleMonthClick} key={index}>
+                <li onClick={() => handleMonthClick(month)} key={index}>
                   {month}월
                 </li>
               );
@@ -59,4 +57,4 @@ const DateDropdown = () => {
   );
 };
 
-export default DateDropdown;
+export default memo(DateDropdown);
