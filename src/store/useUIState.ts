@@ -21,6 +21,13 @@ type UIState = {
   setHistoryId: (id:number) => void;
   wokerDeleteModalOpen: boolean;
   setWokerDeleteModalOpen: () => void;
+  historyAllChecked: boolean;
+  setHistoryAllChecked: () => void;
+  historyCheckedArray: number[];
+  addToCheckedArray: (id: number) => void;
+  filterToCheckedArray: (id: number) => void;
+  historyDeleteModalOpen: boolean;
+  setHistoryDeleteModalOpen: () => void;
 };
 
 const useUIState = create<UIState>((set) => ({
@@ -44,6 +51,15 @@ const useUIState = create<UIState>((set) => ({
   setHistoryId: (id) => set(() => ({ historyId: id })),
   wokerDeleteModalOpen: false,
   setWokerDeleteModalOpen: () => set((state) => ({ wokerDeleteModalOpen: !state.wokerDeleteModalOpen })),
+  historyAllChecked: false,
+  setHistoryAllChecked: () => set((state) => ({ historyAllChecked: !state.historyAllChecked })),
+  historyCheckedArray: [],
+  addToCheckedArray: (id: number) => set((state) => ({ historyCheckedArray: [...state.historyCheckedArray, id] })),
+  filterToCheckedArray: (id: number) => set((state) => ({
+  historyCheckedArray: state.historyCheckedArray.filter((item) => item !== id),
+  })),
+  historyDeleteModalOpen: false,
+  setHistoryDeleteModalOpen: () => set((state) => ({ historyDeleteModalOpen: !state.historyDeleteModalOpen })),
 }));
 
 export default useUIState;

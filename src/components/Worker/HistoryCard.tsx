@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect, memo } from "react";
 import style from "../../styles/Worker/HistoryCard.module.scss";
 import { IWORKER_HISTORY } from "./WorkerDetail";
 import { ReactComponent as CircleIcon } from "../../assets/circle.svg";
@@ -14,7 +14,24 @@ const HistoryCard = ({
   wage,
   cover,
 }: IWORKER_HISTORY) => {
-  const { setHistoryInfoFixModalOpen, setHistoryId } = useUIState();
+  const {
+    setHistoryInfoFixModalOpen,
+    setHistoryId,
+    historyAllChecked,
+    setHistoryAllChecked,
+    addToCheckedArray,
+    filterToCheckedArray,
+  } = useUIState();
+  const [checked, setChecked] = useState(historyAllChecked);
+
+  useEffect(() => {
+    setChecked(historyAllChecked);
+    if (historyAllChecked) {
+      addToCheckedArray(id);
+    } else {
+      filterToCheckedArray(id);
+    }
+  }, [historyAllChecked]);
 
   const formattedDate = useMemo(() => {
     const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -41,20 +58,32 @@ const HistoryCard = ({
     const minutes = totalMinutes % 60;
     return { hours, minutes };
   }, [startTime, endTime]);
-  
+
   const handleEditClick = () => {
     setHistoryInfoFixModalOpen();
     setHistoryId(id);
   };
 
+  const handleCheckClick = () => {
+    setChecked(!checked);
+    if (checked) {
+      filterToCheckedArray(id);
+      historyAllChecked && setHistoryAllChecked();
+    } else {
+      addToCheckedArray(id);
+    }
+  };
+
   return (
     <li className={style.li}>
       <div>
-        <input type="checkbox" />
+        <input type="checkbox" checked={checked} onChange={handleCheckClick} />
       </div>
       <p>{formattedDate}</p>
       <p>
-        {startTime} - {endTime} ({totalHours.hours !== 0 &&`${ totalHours.hours}시간`}{totalHours.minutes !== 0 && ` ${ totalHours.minutes}분`})
+        {startTime} - {endTime} (
+        {totalHours.hours !== 0 && `${totalHours.hours}시간`}
+        {totalHours.minutes !== 0 && ` ${totalHours.minutes}분`})
       </p>
       <p>{wage}</p>
       <p>{cover === 0 ? <UnIcon /> : <CircleIcon />}</p>
@@ -65,4 +94,4 @@ const HistoryCard = ({
   );
 };
 
-export default HistoryCard;
+export default memo(HistoryCard);
