@@ -19,11 +19,11 @@ const HistoryDeleteModal= ({wokerId}:IHistoryDeleteModalProps) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       };
 
-      const idsString = historyCheckedArray.join('&');
-      const url = `/history?id=${wokerId}=?${idsString}`
+      const idsString = historyCheckedArray.join('&id=');
+      const url = `/history?id=${wokerId}&id=${idsString}`
 
       const res = await api.delete(url, config)
-      console.log(res, url)
+
       if(res.data.result){
         setHistoryDeleteModalOpen();
         window.location.reload();
