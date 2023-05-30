@@ -44,6 +44,8 @@ const WorkerDetail = () => {
     wokerDeleteModalOpen,
   } = useUIState();
 
+  const historyObject = userHistoryData.find(item => item.id === historyId);
+
   useEffect(() => {
     const WokerDetailData = async () => {
       try {
@@ -89,7 +91,7 @@ const WorkerDetail = () => {
         <HistoryRegisterModal wage={userInfoData.wage} id={userInfoData.id} />
       )}
       {wokerDeleteModalOpen && <WorkerDeleteModal id={userInfoData.id} name={userInfoData.name} />}
-      {historyInfoFixModalOpen && <HistoryInfoFixModal wokerId={userInfoData.id} {...userHistoryData[historyId-1]} />}
+      {historyInfoFixModalOpen && historyObject !== undefined && <HistoryInfoFixModal wokerId={userInfoData.id} {...historyObject} />}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
