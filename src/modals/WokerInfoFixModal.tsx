@@ -34,13 +34,7 @@ const WorkerInfoFixModal = ({
   const bankInfo = useInput(`${currentBank} ${currentAccountNumber}`);
   const wage = useInput(currentWage ? currentWage : "");
 
-  const isFormValid =
-    name.inputVaild &&
-    age.inputVaild &&
-    password.inputVaild &&
-    phoneNumber.inputVaild &&
-    bankInfo.inputVaild &&
-    wage.inputVaild;
+  const isFormValid = true;
 
   const handlerNameBlur = () => {
     const trimmedValue = name.value.toString().trim();
@@ -244,6 +238,7 @@ const WorkerInfoFixModal = ({
     bankInfo,
     wage,
     submitButtonName: "변경하기",
+    isFormValid,
     handlerNameBlur,
     handlerAgeBlur,
     handlerPasswordBlur,

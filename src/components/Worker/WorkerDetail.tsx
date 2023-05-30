@@ -14,6 +14,7 @@ import { EmptyDataContainer } from "../UI/EmptyDataContainer";
 import HistoryRegisterModal from "../../modals/HistoryRegisterModal";
 import HistoryInfoFixModal from "../../modals/HistoryInfoFixModal";
 import WorkerDeleteModal from "../../modals/WorkerDeleteModal";
+import HistoryDeleteModal from "../../modals/HistoryDeleteModal";
 
 export interface IWORKER_HISTORY {
   id: number;
@@ -42,9 +43,14 @@ const WorkerDetail = () => {
     historyId,
     setWokerDeleteModalOpen,
     wokerDeleteModalOpen,
+    historyAllChecked,
+    setHistoryAllChecked,
+    historyDeleteModalOpen,
+    setHistoryDeleteModalOpen,
+    historyCheckedArray,
   } = useUIState();
 
-  const historyObject = userHistoryData.find(item => item.id === historyId);
+  const historyObject = userHistoryData.find((item) => item.id === historyId);
 
   useEffect(() => {
     const WokerDetailData = async () => {
@@ -70,7 +76,6 @@ const WorkerDetail = () => {
           const { worker, histories } = res.data.data;
           setUserInfoData(worker);
           setUserHistoryData(histories);
-          console.log(histories)
         }
       } catch (error) {
         const err = error as AxiosError;
@@ -82,7 +87,7 @@ const WorkerDetail = () => {
       }
     };
     WokerDetailData();
-  }, [accessToken, setAccessToken, workerid]);
+  }, []);
 
   return (
     <Fragment>
@@ -90,8 +95,15 @@ const WorkerDetail = () => {
       {historyRegisterModalOpen && userInfoData.wage !== undefined && (
         <HistoryRegisterModal wage={userInfoData.wage} id={userInfoData.id} />
       )}
-      {wokerDeleteModalOpen && <WorkerDeleteModal id={userInfoData.id} name={userInfoData.name} />}
-      {historyInfoFixModalOpen && historyObject !== undefined && <HistoryInfoFixModal wokerId={userInfoData.id} {...historyObject} />}
+      {wokerDeleteModalOpen && (
+        <WorkerDeleteModal id={userInfoData.id} name={userInfoData.name} />
+      )}
+      {historyInfoFixModalOpen && historyObject !== undefined && (
+        <HistoryInfoFixModal wokerId={userInfoData.id} {...historyObject} />
+      )}
+      {historyDeleteModalOpen && (
+        <HistoryDeleteModal wokerId={userInfoData.id} />
+      )}
       <div className={style.layout}>
         <div className={style.content}>
           <div className={style.breadcrum}>
@@ -118,15 +130,23 @@ const WorkerDetail = () => {
             <section>
               <div className={style["work-info"]}>
                 <h2>근무정보</h2>
-                <DateDropdown workDates={userHistoryData}/>
+                <DateDropdown workDates={userHistoryData} />
               </div>
               <div className={style["work-content"]}>
                 <div className={style["work-header"]}>
                   <div>
+                    <input
+                      type="checkbox"
+                      checked={historyAllChecked}
+                      onChange={setHistoryAllChecked}
+                    />
                     <p>전체선택</p>
-                    <button className={style["work-delete-button"]}>
+                    {historyCheckedArray.length !== 0 && <button
+                      className={style["work-delete-button"]}
+                      onClick={setHistoryDeleteModalOpen}
+                    >
                       삭제
-                    </button>
+                    </button>}
                   </div>
                   <button
                     className={style["work-register-button"]}
@@ -142,14 +162,13 @@ const WorkerDetail = () => {
                   <p>대리출근</p>
                 </div>
                 <ul className={style["work-list-contnet"]}>
-                  {userHistoryData &&
-                    (userHistoryData.length === 0 ? (
-                      <EmptyDataContainer message="등록된 근무정보가 없습니다." />
-                    ) : (
-                      userHistoryData.map((history) => {
-                        return <HistoryCard key={history.id} {...history} />;
-                      })
-                    ))}
+                  {userHistoryData.length === 0 ? (
+                    <EmptyDataContainer message="등록된 근무정보가 없습니다." />
+                  ) : (
+                    userHistoryData.map((history) => {
+                      return <HistoryCard key={history.id} {...history} />;
+                    })
+                  )}
                 </ul>
               </div>
             </section>

@@ -64,6 +64,12 @@ $primary-color: #5353F7;
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
+    align-items: center;
+    div{
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
     p{
       display: inline;
     }
