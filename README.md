@@ -39,5 +39,5 @@ $ yarn install
 $ yarn start
 ```
 ## 추가 문서 살펴보기
-- 프론트 폴더 구조 및 화면 UI
-- 백엔드 REST API Docs
+- [프론트 폴더 구조 및 화면 UI](https://github.com/kimseowoo03/hereYoure/blob/development/docs/frontend-ui.md)
+- [백엔드 REST API Docs](https://github.com/kimseowoo03/hereYoure/blob/development/docs/backend-rest-api.md)
