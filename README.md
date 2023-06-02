@@ -1,6 +1,6 @@
 # HereYoure Frontend
 <div align='center'>
-<img src="https://github.com/kimseowoo03/hereYoure/assets/102151860/d4da106e-2390-4e9b-b11d-e21fe068b149" width="300" />
+<img src="https://github.com/kimseowoo03/hereYoure/assets/102151860/9f24f41c-6dc5-4891-85a3-7d6e442e32ef" width="600" />
 </div>
 
 ## 프로젝트 소개
