@@ -3,7 +3,7 @@ import style from "../styles/Input.module.scss";
 
 interface InputProps {
   label?: string;
-  type: "text" | "email" | "password" | "number";
+  type: "text" | "email" | "password" | "number" | "date" | "time";
   value: string | number;
   maxLength?: number;
   placeholder: string;

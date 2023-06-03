@@ -64,6 +64,12 @@ $primary-color: #5353F7;
     display: flex;
     justify-content: space-between;
     margin-bottom: 16px;
+    align-items: center;
+    div{
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
     p{
       display: inline;
     }
@@ -109,6 +115,20 @@ $primary-color: #5353F7;
     overflow-x: hidden;
     overflow-y: auto;
     ;
+  }
+}
+
+.worker-del-btn{
+  margin: 30px 0px;
+  display: inline-block;
+  button{
+    border: none;
+    color: $secondary-color;
+    text-decoration-line: underline;
+  }
+  button:hover{
+    cursor: pointer;
+    color: #1d1d1f;
   }
 }
 

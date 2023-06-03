@@ -19,7 +19,7 @@ const DeleteModal: React.FC<IDeleteModalProps> = ({
     <BaseModal>
       <div className={style.content}>
         <h1>{title} 삭제</h1>
-        <p>"{deleteName}" 영구 삭제 하시겠습니까?</p>
+        <p>{deleteName} 삭제 하시겠습니까?</p>
         <div className={style["button-div"]}>
           <Button
             children={"취소"}
