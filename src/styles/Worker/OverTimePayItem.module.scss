@@ -1,0 +1,47 @@
+.content{
+  & > p {
+    color: #5353F7;
+  }
+}
+.time-content{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.time_dropdown{
+  display: inline-block;
+  margin: 0 4px;
+  button{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid #C8C8C8;
+    background-color: white;
+    width: 60px;
+    height: 28px;
+    cursor: pointer;
+  }
+  .time_list{
+    border: 1px solid #C8C8C8;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x:hidden; 
+    overflow-y:auto; 
+    height: 100px;
+    position: absolute;
+    background-color: white;
+    padding: 2px 6px;
+    width: 46px;
+    li{
+      cursor: pointer;
+      margin-top: 10px;
+      padding-left: 4px;
+      font-size: 0.875rem;
+    }
+    li:hover{
+      color: #5353F7;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+a{
+  text-decoration: none;
+  color: inherit;
+}
+.li{
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.8fr;
+  justify-items: center;
+  background: white;
+  border: 1px solid #ffff;
+  border-radius: 15px;
+  padding: 20px 20px;
+  grid-row-gap: 12px;
+  transition: all 0.2s cubic-bezier(.25,.8,.25,1);
+  p{
+    margin: 0;
+  }
+  .next-icon{
+    display: none;
+  }
+}
+
+.li:hover{
+  cursor: pointer;
+  background: #ECECFE;
+  border: 1px solid #5353F9;
+}
+
+
+@media screen and (max-width: 500px){
+
+  .li{
+
+    grid-template-columns: 0.4fr 0.4fr 1fr;
+    justify-items: auto;
+    justify-items: start;
+    .next-icon{
+      display: inline;
+    }
+  }
+
+  //이름
+  .li > p:nth-child(1) {
+    grid-row: 1;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+  .li > .next-icon {
+    grid-column: 3;
+    justify-self: end;
+  }
+  
+  .li > p:nth-child(n+2) {
+    grid-row: 2;
+    font-size: 0.938rem;
+  }
+  .li > p:nth-child(5){
+    justify-self: end;
+  }
+}
+
+@media screen and (max-width: 400px){
+
+  .li{
+    grid-template-columns: 0.5fr 0.5fr 1fr;
+  }
+}
+
+

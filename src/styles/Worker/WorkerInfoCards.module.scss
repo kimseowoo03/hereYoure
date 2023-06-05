@@ -1,0 +1,175 @@
+.worker-info-cards{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-gap: 18px;
+  margin-top: 25px;
+
+  .pay-card, .worker-bank-info-card {
+    background: #FFFFFF;
+    border-radius: 15px;
+  }
+  .pay-card{
+    padding: 32px;
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    justify-content: space-between;
+    h3{
+      margin: 0;
+      font-size: 1.25rem;
+    }
+    p{
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0;
+    }
+  }
+  .worker-bank-info-card{
+    padding: 28px;
+    display: flex;
+    justify-content: space-between;
+
+    .worker-info{
+      span{
+        margin-right: 8px;
+      }
+      p{
+        margin: 0;
+      }
+      p:nth-of-type(1) {
+        margin-top: 36px;
+        margin-bottom: 12px;
+      }
+    }
+
+    .worker-bank-copy{
+      button{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border: 1px solid #292929;
+        border-radius: 25px;
+        background-color: #FFFFFF;
+      }
+      button:hover{
+        cursor: pointer;
+        background-color: #292929;
+        color: white;
+        svg{
+          path{
+            stroke:white
+          }
+        }
+      }
+    }
+  }
+  .salary-calculator{
+    grid-column: span 2;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+
+    .salary-btn{
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .allowance-content{
+      & > p {
+        letter-spacing: -0.02em;
+        color: #4B4B4B;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-top: 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px){
+  .worker-info-cards{
+
+    .pay-card{
+      justify-content: space-around;
+    }
+    .worker-bank-info-card{
+      justify-content: normal;
+      flex-direction: column;
+      gap: 20px;
+
+      .worker-info{
+      span{
+        margin-right: 8px;
+      }
+      p{
+        margin: 0;
+      }
+      p:nth-of-type(1) {
+        margin: 10px 0;
+      }
+    }
+
+      .worker-bank-copy{
+        button{
+          width: 100%;
+          border-radius: 5px;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 570px){
+  .worker-info-cards{
+    grid-template-columns: initial;
+    grid-template-rows: initial;
+    .pay-card{
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      h3{
+        font-size: 1.125rem;
+      }
+      p{
+        font-size: 1.75rem;
+      }
+    }
+    .salary-calculator{
+      grid-column: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 425px){
+  .worker-info-cards{
+
+    .pay-card{
+      h3{
+        font-size: 1rem;
+      }
+      p{
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .salary-calculator{
+    .salary-btn{
+      font-size: 0.875rem;
+    }
+    .allowance-content{
+      & > p {
+        font-size: 0.75rem !important;
+        padding: 0 40px;
+      }
+      p {
+        font-size: 0.875rem;
+      }
+    }
+  }
+}

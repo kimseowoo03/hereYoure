@@ -1,0 +1,126 @@
+.content{
+  padding: 22px 20px;
+  background: #FFFFFF;
+  border: 1px solid #C8C8C8;
+  border-radius: 20px;
+  width: 200px;
+  max-width: 200px;
+  min-height: 160px;
+  p{
+    height: 64px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    text-align: initial;
+    font-weight: 500;
+    font-size: 1.25rem;
+  }
+}
+.include-box{
+  display: flex;
+  gap: 6px;
+  div{
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5353F9;
+  width: 62px;  
+  height: 28px;
+  background: #DEE5FF;
+  border-radius: 25px;
+  }
+}
+.button{
+  margin: 0;
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  background: #C8C8C8;;
+  cursor: pointer;
+  a{
+    text-decoration: none;
+    color: inherit;
+    svg{
+      path{
+        stroke: white;
+      }
+    }
+  }
+}
+.content:hover{
+  border: 1px solid #5353F9;
+  background-color: #5353F9;
+  color: white;
+  .button{
+    a{
+      text-decoration: none;
+      color: inherit;
+      svg{
+        path{
+          stroke: #5353F9;
+        }
+      }
+    }
+    background-color: white;
+  }
+}
+
+@media screen and (max-width: 610px) {
+  .content{
+    width: auto;
+    max-width: none;
+    p{
+      max-height: 30px;
+    }
+  }
+ }
+
+ @media screen and (max-width: 410px) {
+  .content{
+    min-height: auto;
+    border-radius: 10px;
+    p{
+      float: left;
+    }
+  }
+  .include-box{
+    div{
+    height: 24px;
+    }
+  }
+  .button{
+    width: auto;
+    background: none;
+    margin-top: 16px;
+    margin-bottom: 24px;
+    max-height: 30px;
+    a{
+      text-decoration: none;
+      color: inherit;
+      svg{
+        path{
+          stroke: #353539;
+        }
+      }
+    }
+  }
+  .content:hover{
+    border: 1px solid #5353F9;
+    background-color: #5353F9;
+    .button{
+      background-color: #5353F9;
+      a{
+        svg{
+          path{
+            stroke: #FFFFFF;
+          }
+        }
+      }
+    }
+  }
+}
